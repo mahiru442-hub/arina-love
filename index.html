@@ -2,102 +2,62 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#12080f">
-<title>Для Арины ❤️</title>
-<style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#12080f}
-body{position:fixed;inset:0;overscroll-behavior:none}
-iframe{display:block;border:0;width:100%;height:100vh;height:100dvh;background:#12080f}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#160f18">
+<meta name="description" content="Для Арины 🤍">
+<title>Для Арины 🤍</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="site.css">
+
 </head>
-<body>
-<iframe id="app" src="./index.html.html?v=mobilefix-20260920-2" title="Для Арины" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<body class="intro-page">
+<div class="page-transition" aria-hidden="true"></div>
+<div class="intro" id="intro">
+<div class="intro-note">Это письмо можно открыть только один раз — дальше оно останется в воспоминаниях 🤍</div>
+<div aria-hidden="true" class="wizard malfoy-wizard real-wizard-v14"><img alt="" aria-hidden="true" class="real-wizard-image" decoding="async" loading="lazy" src="assets/img-91d312e5d8ba7903.webp"/><span aria-hidden="true" class="wand-tip-anchor real-wand-tip"></span></div>
+<svg aria-hidden="true" class="heart-spell-svg" preserveaspectratio="none" viewbox="0 0 1000 700">
+<defs>
+<filter height="220%" id="greenGlow" width="220%" x="-60%" y="-60%">
+<fegaussianblur result="blur" stddeviation="6"></fegaussianblur>
+<femerge><femergenode in="blur"></femergenode><femergenode in="SourceGraphic"></femergenode></femerge>
+</filter>
+</defs>
+<path class="heart-spell-trail" d="M 190 505 C 275 470, 350 415, 445 365 C 475 348, 498 340, 515 334" pathlength="1"></path>
+<path class="heart-spell-heart" d="M 515 334 C 482 294, 430 319, 444 365 C 455 401, 515 430, 515 430 C 515 430, 575 401, 586 365 C 600 319, 548 294, 515 334 Z" pathlength="1"></path>
+<circle class="heart-spell-hit" cx="515" cy="382" r="13"></circle>
+</svg>
+<div aria-hidden="true" class="spell-flash"></div>
+<div class="envelope-wrap">
+<a aria-label="Открыть письмо" class="envelope" href="#intro" id="envelope">
+<div class="envelope-base"></div>
+<div class="letter" id="letter">
+<h2>Арина,</h2>
+<p>
+            спасибо тебе за то, что ты появилась в моей жизни. За наши разговоры на расстоянии, за ожидание встречи,
+            за то особенное чувство, когда обычный день становится важнее просто потому, что в нём есть ты.
+            <br/><br/>
+            Я очень рад нашему невероятному знакомству. Мне нравится узнавать тебя всё больше, ждать твоих сообщений,
+            представлять нашу встречу и понимать, что мне действительно хочется быть рядом — не только в переписке,
+            а по-настоящему. Сегодняшнее время с тобой я хочу запомнить надолго.
+            <br/><br/>
+            Я люблю тебя за твою нежность, характер, улыбку, карие глаза, твои мысли, твою искренность и просто за то,
+            какая ты есть. И если это только начало нашей истории — я очень хочу узнать, какой она станет дальше.
+          </p>
+<span class="sign">Тот, кто очень счастлив, что встретил тебя 🤍</span>
+</div>
+<div class="flap"></div>
+<div class="seal">A</div>
+<div class="tap-label">нажми, чтобы открыть письмо</div>
+</a>
+</div>
+</div>
+<script src="site.js" defer></script>
 <script>
 (function(){
-  var frame=document.getElementById("app");
-  var completed=false;
-  var finishTimer=0;
-
-  history.replaceState(null,"",location.pathname+location.search);
-
-  function installFix(){
-    var w,d,intro,site,envelope;
-    try{
-      w=frame.contentWindow;
-      d=w.document;
-      intro=d.getElementById("intro");
-      site=d.getElementById("site");
-      envelope=d.getElementById("envelope");
-    }catch(e){ return; }
-
-    if(!d||!intro||!site||!envelope) return;
-
-    if(!d.getElementById("mobile-intro-lock-style")){
-      var style=d.createElement("style");
-      style.id="mobile-intro-lock-style";
-      style.textContent=
-        "html.intro-complete .intro,.intro.intro-complete{opacity:0!important;visibility:hidden!important;pointer-events:none!important;animation:none!important}"+
-        "html.intro-complete .site,.site.intro-complete{opacity:1!important;transform:none!important;visibility:visible!important;animation:none!important}";
-      d.head.appendChild(style);
-    }
-
-    function keepDone(){
-      if(!completed) return;
-      d.documentElement.classList.add("intro-complete");
-      intro.classList.add("intro-complete");
-      site.classList.add("intro-complete");
-    }
-
-    function finish(){
-      if(completed){ keepDone(); return; }
-      completed=true;
-      clearTimeout(finishTimer);
-      keepDone();
-      try{
-        if(w.location.hash==="#intro"){
-          w.history.replaceState(w.history.state,"",w.location.pathname+w.location.search);
-        }
-      }catch(e){}
-    }
-
-    function arm(){
-      if(completed) return;
-      clearTimeout(finishTimer);
-      finishTimer=setTimeout(finish,21600);
-    }
-
-    if(!d.documentElement.dataset.mobileIntroFix){
-      d.documentElement.dataset.mobileIntroFix="1";
-
-      envelope.addEventListener("click",arm,{capture:true,passive:true});
-
-      intro.addEventListener("animationend",function(e){
-        if(e.animationName==="cssIntroAway" || /IntroAway/i.test(e.animationName)){
-          finish();
-        }
-      });
-
-      w.addEventListener("hashchange",function(){
-        if(w.location.hash==="#intro" && !completed) arm();
-        else if(completed) keepDone();
-      });
-
-      w.addEventListener("pageshow",keepDone);
-      w.addEventListener("resize",keepDone,{passive:true});
-    }
-
-    if(completed) keepDone();
-    else {
-      try{ if(w.location.hash==="#intro") arm(); }catch(e){}
-    }
-  }
-
-  frame.addEventListener("load",installFix);
-  window.addEventListener("pageshow",installFix);
-  window.addEventListener("resize",function(){
-    if(completed) installFix();
-  },{passive:true});
+  const env=document.getElementById('envelope'); let timer=0;
+  function arm(){ clearTimeout(timer); timer=setTimeout(()=>{document.querySelector('.page-transition')?.classList.add('active');setTimeout(()=>location.replace('home.html'),620);},21450); }
+  if(env) env.addEventListener('click',arm,{once:true});
+  if(location.hash==='#intro') arm();
 })();
 </script>
 </body>
