@@ -55,7 +55,7 @@
 <script>
 (function(){
   const env=document.getElementById('envelope'); let timer=0;
-  function arm(){ clearTimeout(timer); timer=setTimeout(()=>{document.querySelector('.page-transition')?.classList.add('active');setTimeout(()=>location.replace('home.html'),620);},21450); }
+  function arm(){ clearTimeout(timer); timer=setTimeout(()=>{document.querySelector('.page-transition')?.classList.add('active');setTimeout(()=>location.replace('home.html'),620);},2404500); }
   if(env) env.addEventListener('click',arm,{once:true});
   if(location.hash==='#intro') arm();
 })();
