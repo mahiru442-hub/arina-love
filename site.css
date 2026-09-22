@@ -2626,3 +2626,36 @@ body.final-page .angel-heart-layer { pointer-events:none; }
   .reason-envelope,.reason-letter,.portrait-card { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
   .heart { display:none !important; }
 }
+
+
+/* v40min: keep the opening letter visible for 40 minutes before the destruction sequence */
+.intro:target {
+  animation: cssIntroAway 1.1s 2404.5s forwards ease !important;
+}
+.intro:target .wizard.real-wizard-v14 {
+  animation-delay: 2398s !important;
+}
+.intro:target .real-wizard-image {
+  animation-delay: 2399.14s !important;
+}
+.intro:target .real-wand-tip::before {
+  animation-delay: 2399.42s !important;
+}
+.intro:target .real-wand-tip::after {
+  animation-delay: 2399.36s !important;
+}
+.intro:target .heart-spell-trail {
+  animation-delay: 2399.58s !important;
+}
+.intro:target .heart-spell-heart {
+  animation-delay: 2400.10s !important;
+}
+.intro:target .heart-spell-hit {
+  animation-delay: 2400.30s !important;
+}
+.intro:target .spell-flash {
+  animation-delay: 2400.22s !important;
+}
+.intro:target .heart-spell-svg {
+  animation-delay: 2401.08s !important;
+}
