@@ -112,7 +112,7 @@
         setTimeout(() => {
           startHearts();
           revealVisible();
-        }, 21400);
+        }, 2404500);
       }
     });
 
@@ -136,7 +136,7 @@
   function armSpellTracking(){
     cancelAnimationFrame(spellRAF); spellStart=0;
     // Starts shortly before the wand fires. This fixes desktop aspect ratios.
-    setTimeout(()=>{ spellRAF=requestAnimationFrame(trackDesktopSpell); }, 14950);
+    setTimeout(()=>{ spellRAF=requestAnimationFrame(trackDesktopSpell); }, 2398200);
   }
   window.addEventListener('hashchange',()=>{ if(location.hash==='#intro') armSpellTracking(); });
   window.addEventListener('load',()=>{ if(location.hash==='#intro') armSpellTracking(); });
@@ -154,9 +154,14 @@
     requestAnimationFrame(frame);
   }
   const env=document.getElementById('envelope');
-  if(env) env.addEventListener('click',function(){ trackV14(19000); },{once:true});
+  let delayedTrack=0;
+  function armV14Tracking(){
+    clearTimeout(delayedTrack);
+    delayedTrack=setTimeout(function(){ trackV14(6500); },2397000);
+  }
+  if(env) env.addEventListener('click',armV14Tracking,{once:true});
   window.addEventListener('load',function(){
-    if(location.hash==='#intro') trackV14(19000);
+    if(location.hash==='#intro') armV14Tracking();
     setTimeout(function(){ if(typeof positionHeartSpell==='function') positionHeartSpell(); },60);
   });
 })();
@@ -210,7 +215,7 @@
         placeGreenFire();
         void fire.offsetWidth;
         fire.classList.add('active');
-      },16320);
+      },2400000);
     }
     window.addEventListener('resize',()=>requestAnimationFrame(placeGreenFire),{passive:true});
     window.addEventListener('hashchange',()=>{ if(location.hash==='#intro') armGreenFire(); });
@@ -272,7 +277,7 @@
       front.classList.remove('active'); void front.offsetWidth; front.classList.add('active');
       makeSparkBurst(); sparks.classList.add('active');
       sparkTimer=setTimeout(()=>sparks.classList.remove('active'),1800);
-    },16320);
+    },2400000);
   }
   window.addEventListener('resize',()=>requestAnimationFrame(placeFX),{passive:true});
   if(envelope) envelope.addEventListener('click',resetAndArm,{passive:true});
@@ -296,7 +301,7 @@
       letter.classList.remove('spell-dissolve-v20');
       void letter.offsetWidth;
       letter.classList.add('spell-dissolve-v20');
-    },16320);
+    },2400000);
   }
   document.getElementById('envelope')?.addEventListener('click', arm, {passive:true});
   window.addEventListener('hashchange',()=>{if(location.hash==='#intro') arm();});
@@ -322,7 +327,7 @@
       letter.classList.remove('spell-dissolve-v20','spell-dissolve-v21');
       void letter.offsetWidth;
       letter.classList.add('spell-dissolve-v21');
-    },16320);
+    },2400000);
   }
   if(envelope) envelope.addEventListener('click',resetAndArm,{passive:true});
   window.addEventListener('hashchange',function(){ if(location.hash==='#intro') resetAndArm(); });
