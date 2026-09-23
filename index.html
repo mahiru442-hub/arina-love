@@ -7,7 +7,7 @@
 <meta name="description" content="Для Арины 🤍">
 <title>Для Арины 🤍</title>
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="site.css?v=20260923-24">
+<link rel="stylesheet" href="site.css?v=20260923-25">
 
 </head>
 <body class="intro-page">
@@ -51,31 +51,46 @@
 <div class="seal">A</div>
 <div class="tap-label">нажми, чтобы открыть письмо</div>
 </a>
+</div>
 <button class="intro-continue" id="introContinue" type="button">Продолжить</button>
 </div>
-</div>
-<script src="site.js?v=20260923-24" defer></script>
+<script src="site.js?v=20260923-25" defer></script>
 <script>
 (function(){
   const intro=document.getElementById('intro');
   const envelope=document.getElementById('envelope');
+  const letter=document.getElementById('letter');
   const button=document.getElementById('introContinue');
   const overlay=document.querySelector('.page-transition');
-  if(!intro || !envelope || !button) return;
+  if(!intro || !envelope || !letter || !button) return;
 
   let started=false;
   let showTimer=0;
+
+  function placeContinue(){
+    const r=letter.getBoundingClientRect();
+    button.style.setProperty('--continue-top', Math.round(r.bottom + 26) + 'px');
+  }
 
   function showContinue(){
     clearTimeout(showTimer);
     button.classList.remove('after-open-visible');
     showTimer=setTimeout(()=>{
-      if(location.hash==='#intro') button.classList.add('after-open-visible');
+      if(location.hash!=='#intro') return;
+      placeContinue();
+      button.classList.add('after-open-visible');
     },4000);
   }
 
   envelope.addEventListener('click',showContinue,{once:true});
   if(location.hash==='#intro') showContinue();
+
+  window.addEventListener('resize',()=>{
+    if(button.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
+  },{passive:true});
+  window.visualViewport?.addEventListener('resize',()=>{
+    if(button.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
+  },{passive:true});
 
   button.addEventListener('click',e=>{
     e.preventDefault();
@@ -86,8 +101,8 @@
     intro.classList.add('continue-triggered');
     document.dispatchEvent(new CustomEvent('intro:continue'));
 
-    setTimeout(()=>overlay?.classList.add('active'),5350);
-    setTimeout(()=>location.replace('home.html'),6900);
+    setTimeout(()=>overlay?.classList.add('active'),5400);
+    setTimeout(()=>location.replace('home.html'),7000);
   });
 })();
 </script>
