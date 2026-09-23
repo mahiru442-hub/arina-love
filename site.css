@@ -3680,3 +3680,113 @@ body.home-page .site{
   70%{opacity:.78;transform:translate3d(0,18px,0) scale(.998);}
   100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
 }
+
+
+/* ===== v25 FINAL POLISH: button below paper, old slow distance reveal, visible angel heart ===== */
+
+/* The button is now a direct child of .intro, so no transformed ancestor can drag it onto the paper. */
+body.intro-page #introContinue{
+  position:fixed !important;
+  left:50% !important;
+  top:var(--continue-top, 78vh) !important;
+  right:auto !important;
+  bottom:auto !important;
+  margin:0 !important;
+  z-index:2147483647 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:176px !important;
+  min-height:52px !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate3d(-50%,28px,0) scale(.97) !important;
+  transition:
+    opacity .62s ease !important,
+    transform .95s cubic-bezier(.16,.82,.16,1) !important,
+    visibility .62s ease !important;
+}
+body.intro-page #introContinue.after-open-visible{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translate3d(-50%,0,0) scale(1) !important;
+}
+body.intro-page #introContinue:active{
+  transform:translate3d(-50%,1px,0) scale(.97) !important;
+}
+body.intro-page #introContinue.pressed{
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+/* Slow, cinematic distance block like the earlier version. */
+.js body.home-page .distance-memory{
+  opacity:0 !important;
+  transform:translate3d(0,92px,0) scale(.992) !important;
+  filter:none !important;
+  transition:none !important;
+  will-change:opacity,transform;
+}
+.js body.home-page .distance-memory.distance-visible{
+  animation:distanceSceneIn25 5.4s cubic-bezier(.12,.76,.14,1) both !important;
+}
+@keyframes distanceSceneIn25{
+  0%{opacity:0;transform:translate3d(0,92px,0) scale(.992);}
+  18%{opacity:.08;}
+  42%{opacity:.32;transform:translate3d(0,60px,0) scale(.995);}
+  68%{opacity:.66;transform:translate3d(0,28px,0) scale(.998);}
+  86%{opacity:.88;}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
+}
+
+/* Final heart gets its own guaranteed drawing area. */
+body.final-page .finale-inner{
+  padding-bottom:340px !important;
+  overflow:visible !important;
+}
+body.final-page #angelHeartLayer{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:30 !important;
+  overflow:visible !important;
+  pointer-events:none !important;
+}
+body.final-page .real-heart-angel{
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  z-index:31 !important;
+  display:block !important;
+  opacity:0 !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  filter:none !important;
+  -webkit-filter:none !important;
+  text-shadow:none !important;
+  transform:translate3d(var(--sx),var(--sy),0) translate(-50%,-50%) scale(.72) rotate(-10deg) !important;
+}
+body.final-page #angelHeartLayer.heart-assembling .real-heart-angel{
+  animation:angelHeartGather25 2.35s cubic-bezier(.14,.76,.14,1) forwards !important;
+}
+@keyframes angelHeartGather25{
+  0%{
+    opacity:0;
+    transform:translate3d(var(--sx),var(--sy),0) translate(-50%,-50%) scale(.72) rotate(-10deg);
+  }
+  16%{opacity:1;}
+  58%{
+    opacity:1;
+    transform:translate3d(var(--mx),var(--my),0) translate(-50%,-50%) scale(1.08) rotate(7deg);
+  }
+  100%{
+    opacity:1;
+    transform:translate3d(var(--tx),var(--ty),0) translate(-50%,-50%) scale(1) rotate(0);
+  }
+}
+@media(max-width:760px){
+  body.final-page .finale-inner{padding-bottom:300px !important;}
+  body.final-page .real-heart-angel{font-size:12px !important;}
+}
