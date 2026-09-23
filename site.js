@@ -417,36 +417,21 @@
   }
 })();
 
-/* Reveal the intro Continue button only after the first letter is scrolled to the end. */
+/* Reveal the intro Continue button 30 seconds after the first letter is opened. */
 (function(){
-  const scroller=document.querySelector('#letter .letter-scroll');
   const button=document.getElementById('introContinue');
-  const intro=document.getElementById('intro');
-  if(!scroller || !button || !intro) return;
+  if(!button) return;
+  let revealTimer=0;
 
-  function updateContinueVisibility(){
-    if(location.hash!=='#intro'){
-      button.classList.remove('read-complete');
-      return;
-    }
-    const remaining=scroller.scrollHeight-scroller.scrollTop-scroller.clientHeight;
-    if(remaining<=10) button.classList.add('read-complete');
-    else button.classList.remove('read-complete');
+  function resetTimer(){
+    clearTimeout(revealTimer);
+    button.classList.remove('read-complete');
+    if(location.hash!=='#intro') return;
+    revealTimer=setTimeout(()=>{
+      if(location.hash==='#intro') button.classList.add('read-complete');
+    },30000);
   }
 
-  scroller.addEventListener('scroll',updateContinueVisibility,{passive:true});
-  window.addEventListener('resize',updateContinueVisibility,{passive:true});
-  window.addEventListener('hashchange',()=>{
-    requestAnimationFrame(()=>{
-      scroller.scrollTop=0;
-      updateContinueVisibility();
-    });
-  });
-
-  window.addEventListener('load',()=>{
-    requestAnimationFrame(()=>{
-      if(location.hash==='#intro') scroller.scrollTop=0;
-      updateContinueVisibility();
-    });
-  });
+  window.addEventListener('hashchange',resetTimer);
+  window.addEventListener('load',resetTimer);
 })();
