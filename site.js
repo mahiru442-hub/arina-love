@@ -67,19 +67,19 @@
 
     document.querySelectorAll('.mist-page, .mist-inner, .mist-item').forEach(el => mistObserver.observe(el));
 
-    // Dedicated slow reveal for the distance block so it cannot be pre-revealed on page load.
+    // Reveal the route screenshot + text only when the card itself reaches the viewport.
     const distanceSection=document.querySelector('.distance-memory');
     if(distanceSection){
-      const distanceInner=distanceSection.querySelector('.mist-inner');
+      const distanceCard=distanceSection.querySelector('.portrait-card');
       const distanceObserver=new IntersectionObserver(entries=>{
         entries.forEach(entry=>{
-          if(!entry.isIntersecting || entry.intersectionRatio < .18) return;
+          if(!entry.isIntersecting) return;
           distanceSection.classList.add('mist-visible','distance-visible');
-          if(distanceInner) distanceInner.classList.add('mist-visible');
+          distanceCard?.classList.add('mist-visible');
           distanceObserver.disconnect();
         });
-      },{threshold:[.28,.42],rootMargin:'0px 0px -14% 0px'});
-      distanceObserver.observe(distanceSection);
+      },{threshold:[.16,.28],rootMargin:'0px 0px -24% 0px'});
+      distanceObserver.observe(distanceCard || distanceSection);
     }
 
     // v5: не перехватываем нативное открытие <details>. Это надёжнее на iPhone/Safari.
@@ -437,69 +437,47 @@
     io.observe(endMarker);
   }
 
-  // Final page: always assemble the full heart from all 100 angels.
+  // Final page: all 100 angels visibly gather into a heart under the text.
   const layer=document.getElementById('angelHeartLayer');
   if(layer && document.body.classList.contains('final-page')){
-    const angels=Array.from({length:100},(_,i)=>i+1);
-    const count=angels.length;
     layer.innerHTML='';
+    layer.classList.add('full-heart-100');
 
-    const finale=document.querySelector('.finale-inner');
-    const phrase=document.querySelector('.final-phrase');
-
-    function targetPoint(i,total){
-      const t=(Math.PI*2*i/total)-Math.PI;
+    for(let i=0;i<100;i++){
+      const t=(Math.PI*2*i/100)-Math.PI;
       const x=16*Math.pow(Math.sin(t),3);
-      const y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
-      return {x,y};
+      const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);
+
+      const angel=document.createElement('span');
+      angel.className='final-heart-angel';
+      angel.textContent='😇';
+      angel.setAttribute('aria-hidden','true');
+
+      angel.style.left=(50 + x*2.45)+'%';
+      angel.style.top=(50 - y*2.35)+'%';
+
+      const side=i%4;
+      if(side===0){
+        angel.style.setProperty('--from-x','-190px');
+        angel.style.setProperty('--from-y','25px');
+      }else if(side===1){
+        angel.style.setProperty('--from-x','190px');
+        angel.style.setProperty('--from-y','-20px');
+      }else if(side===2){
+        angel.style.setProperty('--from-x','0px');
+        angel.style.setProperty('--from-y','-150px');
+      }else{
+        angel.style.setProperty('--from-x','20px');
+        angel.style.setProperty('--from-y','150px');
+      }
+
+      angel.style.animationDelay=(i*24)+'ms';
+      layer.appendChild(angel);
     }
 
-    function layoutTargets(){
-      if(!finale||!phrase) return;
-      const fr=finale.getBoundingClientRect();
-      const pr=phrase.getBoundingClientRect();
-      const narrow=innerWidth<=760;
-      const cx=fr.width*.5;
-      const cy=(pr.bottom-fr.top)+(narrow?138:164);
-      const scaleX=narrow?4.0:5.6;
-      const scaleY=narrow?3.8:5.2;
-
-      layer.querySelectorAll('.angel-heart-dot').forEach((dot,i)=>{
-        const p=targetPoint(i,count);
-        const tx=cx+p.x*scaleX;
-        const ty=cy+p.y*scaleY;
-        const side=i%4;
-        let sx,sy;
-        if(side===0){ sx=-90; sy=ty-70; }
-        else if(side===1){ sx=fr.width+90; sy=ty+55; }
-        else if(side===2){ sx=tx-80; sy=-120; }
-        else { sx=tx+90; sy=fr.height+180; }
-        const mx=(sx+tx)/2;
-        const my=(sy+ty)/2-55;
-
-        dot.style.setProperty('--sx',sx+'px');
-        dot.style.setProperty('--sy',sy+'px');
-        dot.style.setProperty('--mx',mx+'px');
-        dot.style.setProperty('--my',my+'px');
-        dot.style.setProperty('--tx',tx+'px');
-        dot.style.setProperty('--ty',ty+'px');
-      });
-    }
-
-    angels.forEach((n,i)=>{
-      const dot=document.createElement('span');
-      dot.className='angel-heart-dot real-heart-angel';
-      dot.dataset.reason=String(n);
-      dot.textContent='😇';
-      dot.style.animationDelay=(i*26)+'ms';
-      layer.appendChild(dot);
-    });
-
-    layoutTargets();
     requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>layer.classList.add('heart-assembling'));
+      requestAnimationFrame(()=>layer.classList.add('heart-assembled'));
     });
-    addEventListener('resize',()=>requestAnimationFrame(layoutTargets),{passive:true});
   }
 })();
 
