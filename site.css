@@ -2707,3 +2707,16 @@ body.final-page .angel-heart-layer { pointer-events:none; }
 .intro:target .heart-spell-hit{animation-delay:3600.30s !important;}
 .intro:target .spell-flash{animation-delay:3600.22s !important;}
 .intro:target .heart-spell-svg{animation-delay:3601.08s !important;}
+
+
+/* v1min: show Malfoy again; destroy the first letter one minute after it opens. */
+.intro:target{animation:cssIntroAway 1.1s 64.5s forwards ease !important;}
+.intro:target .wizard.real-wizard-v14{animation:realWizardEnterV14 5.6s 58s forwards cubic-bezier(.18,.82,.2,1) !important;}
+.intro:target .real-wizard-image{animation:realWizardCastV14 1.45s 59.14s both cubic-bezier(.2,.82,.18,1) !important;}
+.intro:target .real-wand-tip::before{animation:realWandGlowV14 1.55s 59.42s both ease-out !important;}
+.intro:target .real-wand-tip::after{animation:realWandAuraV14 1.75s 59.36s both ease-out !important;}
+.intro:target .heart-spell-trail{animation:heartTrail 1.05s 59.58s cubic-bezier(.2,.84,.2,1) both !important;}
+.intro:target .heart-spell-heart{animation:heartDraw .92s 60.10s cubic-bezier(.16,.82,.18,1) both !important;}
+.intro:target .heart-spell-hit{animation:heartHit .92s 60.30s ease-out both !important;}
+.intro:target .spell-flash{animation:spellFlashV13 1.05s 60.22s forwards ease-out !important;}
+.intro:target .heart-spell-svg{animation:spellLayerCleanupV14 1.35s 61.08s forwards ease-out !important;}
