@@ -483,21 +483,31 @@
   }
 })();
 
-/* Reveal the intro Continue button 30 seconds after the first letter is opened. */
+/* First-letter Continue button: reveal only after the opening animation finishes. */
 (function(){
   const button=document.getElementById('introContinue');
-  if(!button) return;
-  let revealTimer=0;
+  const envelope=document.getElementById('envelope');
+  if(!button || !envelope) return;
 
-  function resetTimer(){
+  let revealTimer=0;
+  function hideContinue(){
     clearTimeout(revealTimer);
-    button.classList.remove('read-complete');
-    if(location.hash!=='#intro') return;
+    button.classList.remove('after-open-visible');
+  }
+  function revealAfterOpen(){
+    hideContinue();
     revealTimer=setTimeout(()=>{
-      if(location.hash==='#intro') button.classList.add('read-complete');
-    },30000);
+      if(location.hash==='#intro') button.classList.add('after-open-visible');
+    },4200);
   }
 
-  window.addEventListener('hashchange',resetTimer);
-  window.addEventListener('load',resetTimer);
+  envelope.addEventListener('click',revealAfterOpen,{once:true});
+  window.addEventListener('hashchange',()=>{
+    if(location.hash==='#intro') revealAfterOpen();
+    else hideContinue();
+  });
+  window.addEventListener('pageshow',()=>{
+    if(location.hash==='#intro') revealAfterOpen();
+    else hideContinue();
+  });
 })();
