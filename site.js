@@ -343,17 +343,45 @@
   });
 })();
 
-// ===== split-site navigation and persistence =====
+// ===== real split-site progress + real angel heart =====
 (function(){
-  const key='arina-opened-reasons-v1';
-  function getOpened(){ try{return new Set(JSON.parse(localStorage.getItem(key)||'[]').map(Number));}catch(_){return new Set();} }
-  function saveOpened(set){ try{localStorage.setItem(key,JSON.stringify([...set].sort((a,b)=>a-b)));}catch(_){} }
+  const key='arina-opened-reasons-v2';
+
+  function getOpened(){
+    try{
+      const raw=JSON.parse(localStorage.getItem(key)||'[]');
+      return new Set(raw.map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=100));
+    }catch(_){ return new Set(); }
+  }
+  function saveOpened(set){
+    try{ localStorage.setItem(key,JSON.stringify([...set].sort((a,b)=>a-b))); }catch(_){}
+  }
+  function markOpened(n){
+    if(!Number.isInteger(n)||n<1||n>100) return;
+    const opened=getOpened();
+    if(opened.has(n)) return;
+    opened.add(n);
+    saveOpened(opened);
+  }
+
+  // Count a letter only when its burn/reveal has actually completed.
   document.querySelectorAll('#reasonsGrid > details.reason-envelope[data-reason]').forEach(detail=>{
     const n=Number(detail.dataset.reason);
+    let recorded=false;
+
+    const recordIfDone=()=>{
+      if(recorded || !detail.open || !detail.classList.contains('burn-done')) return;
+      recorded=true;
+      markOpened(n);
+    };
+
     detail.addEventListener('toggle',()=>{
-      if(!detail.open || !n) return;
-      const opened=getOpened(); opened.add(n); saveOpened(opened);
+      if(!detail.open){ recorded=false; return; }
+      if(detail.classList.contains('burn-done')) recordIfDone();
     },{passive:true});
+
+    const mo=new MutationObserver(recordIfDone);
+    mo.observe(detail,{attributes:true,attributeFilter:['class']});
   });
 
   const overlay=document.querySelector('.page-transition');
@@ -362,58 +390,86 @@
     if(!href || navigating) return;
     navigating=true;
     if(overlay) overlay.classList.add('active');
-    setTimeout(()=>{ location.href=href; }, 620);
+    setTimeout(()=>{ location.href=href; },620);
   }
   document.querySelectorAll('a[data-page-link]').forEach(a=>{
-    a.addEventListener('click',e=>{ e.preventDefault(); go(a.getAttribute('href')); });
+    a.addEventListener('click',e=>{e.preventDefault();go(a.getAttribute('href'));});
   });
 
-  // Auto-advance only after the end marker remains visible, so normal reading isn't interrupted.
-  const end=document.querySelector('.page-end-trigger[data-next]');
-  if(end && 'IntersectionObserver' in window){
+  const endMarker=document.querySelector('.page-end-trigger[data-next]');
+  if(endMarker && 'IntersectionObserver' in window){
     let timer=0;
     const io=new IntersectionObserver(entries=>{
-      const hit=entries.some(e=>e.isIntersecting && e.intersectionRatio>.7);
+      const hit=entries.some(e=>e.isIntersecting&&e.intersectionRatio>.7);
       clearTimeout(timer);
-      if(hit) timer=setTimeout(()=>go(end.dataset.next), 1150);
+      if(hit) timer=setTimeout(()=>go(endMarker.dataset.next),1150);
     },{threshold:[.7]});
-    io.observe(end);
+    io.observe(endMarker);
   }
 
-  // Final page: rebuild the angel heart from reasons opened on the split pages.
+  // Final page: use ONLY actually completed letters and animate those angels into a heart.
   const layer=document.getElementById('angelHeartLayer');
   if(layer && document.body.classList.contains('final-page')){
-    const opened=[...getOpened()].filter(n=>n>=1&&n<=100).sort((a,b)=>a-b);
+    const opened=[...getOpened()].sort((a,b)=>a-b);
     const count=opened.length;
-    const total=Math.max(count,1);
-    if(count){
-      layer.innerHTML='';
-      opened.forEach((n,i)=>{
-        const dot=document.createElement('span');
-        dot.className='angel-heart-dot'; dot.dataset.heartIndex=i; dot.textContent='😇';
-        dot.style.opacity='0'; dot.style.transform='translate(-50%,-50%) scale(.4)';
-        layer.appendChild(dot);
-        setTimeout(()=>{dot.style.transition='opacity .45s ease, transform .55s cubic-bezier(.2,.8,.2,1)';dot.style.opacity='1';dot.style.transform='translate(-50%,-50%) scale(1)';},Math.min(i*22,1800));
-      });
-      function layout(){
-        const finale=document.querySelector('.finale-inner'); const phrase=document.querySelector('.final-phrase');
+    const note=document.querySelector('.final-heart-note');
+
+    if(note) note.textContent=`Открыто писем: ${count} из 100`;
+    layer.innerHTML='';
+
+    if(count>0){
+      const finale=document.querySelector('.finale-inner');
+      const phrase=document.querySelector('.final-phrase');
+
+      function targetPoint(i,total){
+        const t=(Math.PI*2*i/total)-Math.PI;
+        const x=16*Math.pow(Math.sin(t),3);
+        const y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+        return {x,y};
+      }
+
+      function layoutTargets(){
         if(!finale||!phrase) return;
-        const fr=finale.getBoundingClientRect(); const pr=phrase.getBoundingClientRect();
+        const fr=finale.getBoundingClientRect();
+        const pr=phrase.getBoundingClientRect();
         const narrow=innerWidth<=760;
-        const cx=narrow? Math.max(fr.width*.72,fr.width-64) : fr.width/2;
-        const cy=narrow? (pr.bottom-fr.top)+92 : (pr.bottom-fr.top)+118;
-        const sx=narrow?3.5:5.2, sy=narrow?3.4:5.0;
+        const cx=narrow?fr.width*.5:fr.width*.5;
+        const cy=(pr.bottom-fr.top)+(narrow?118:142);
+        const sx=narrow?4.2:5.8;
+        const sy=narrow?4.0:5.5;
+
         layer.querySelectorAll('.angel-heart-dot').forEach((dot,i)=>{
-          const t=(Math.PI*2*i/total)-Math.PI;
-          const x=16*Math.pow(Math.sin(t),3);
-          const y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
-          dot.style.left=(cx+x*sx)+'px'; dot.style.top=(cy+y*sy)+'px';
+          const p=targetPoint(i,count);
+          dot.style.setProperty('--tx',(cx+p.x*sx)+'px');
+          dot.style.setProperty('--ty',(cy+p.y*sy)+'px');
         });
       }
-      requestAnimationFrame(layout); addEventListener('resize',()=>requestAnimationFrame(layout),{passive:true});
+
+      opened.forEach((n,i)=>{
+        const dot=document.createElement('span');
+        dot.className='angel-heart-dot real-heart-angel';
+        dot.dataset.reason=String(n);
+        dot.textContent='😇';
+
+        const side=i%4;
+        const vw=Math.max(document.documentElement.clientWidth,innerWidth||0);
+        const vh=Math.max(document.documentElement.clientHeight,innerHeight||0);
+        let sx,sy;
+        if(side===0){ sx=-60; sy=vh*(.18+((i*37)%60)/100); }
+        else if(side===1){ sx=vw+60; sy=vh*(.16+((i*29)%64)/100); }
+        else if(side===2){ sx=vw*(.15+((i*41)%70)/100); sy=-60; }
+        else { sx=vw*(.12+((i*31)%74)/100); sy=vh+60; }
+
+        dot.style.setProperty('--sx',sx+'px');
+        dot.style.setProperty('--sy',sy+'px');
+        dot.style.animationDelay=(i*55)+'ms';
+        layer.appendChild(dot);
+      });
+
+      layoutTargets();
+      requestAnimationFrame(()=>layer.classList.add('heart-assembling'));
+      addEventListener('resize',()=>requestAnimationFrame(layoutTargets),{passive:true});
     }
-    const note=document.querySelector('.final-heart-note');
-    if(note) note.textContent=count?`Открыто писем: ${count} из 100`:'Сердце будет собираться из ангелочков по мере открытия писем.';
   }
 })();
 
