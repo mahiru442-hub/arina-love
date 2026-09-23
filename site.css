@@ -2946,3 +2946,52 @@ body.final-page .angel-heart-layer { pointer-events:none; }
     bottom:22px !important;
   }
 }
+
+
+/* ===== vContinueReadEnd: place the button under the letter and reveal it only at the end ===== */
+.intro .intro-continue,
+.intro:target .intro-continue{
+  position:fixed !important;
+  left:50% !important;
+  top:calc(50% + 250px) !important;
+  right:auto !important;
+  bottom:auto !important;
+  margin:0 !important;
+  transform:translateX(-50%) translateY(10px) !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transition:opacity .32s ease, transform .32s ease, visibility .32s ease !important;
+}
+.intro:target .intro-continue.read-complete{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translateX(-50%) translateY(0) !important;
+}
+.intro .intro-continue:active{
+  transform:translateX(-50%) scale(.97) !important;
+}
+.intro .intro-continue.pressed{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateX(-50%) translateY(8px) !important;
+}
+@media(max-width:760px){
+  .intro .intro-continue,
+  .intro:target .intro-continue{
+    top:calc(50% + 235px) !important;
+    min-width:170px !important;
+    min-height:50px !important;
+  }
+}
+@media(max-height:760px){
+  .intro .intro-continue,
+  .intro:target .intro-continue{
+    top:auto !important;
+    bottom:92px !important;
+  }
+}
