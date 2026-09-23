@@ -3547,3 +3547,37 @@ body.home-page .distance-memory::after{
     45%,100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:none}
   }
 }
+
+
+/* ===== v22: restore first-letter Continue button on iPhone ===== */
+body.intro-page .envelope-wrap{
+  filter:none !important;
+  -webkit-filter:none !important;
+}
+body.intro-page .envelope{
+  filter:drop-shadow(0 30px 45px rgba(0,0,0,.48));
+}
+body.intro-page #introContinue{
+  position:fixed !important;
+  left:50% !important;
+  top:auto !important;
+  right:auto !important;
+  bottom:calc(24px + env(safe-area-inset-bottom)) !important;
+  margin:0 !important;
+  z-index:2147483640 !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate(-50%,20px) scale(.98) !important;
+}
+body.intro-page #introContinue.after-open-visible{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translate(-50%,0) scale(1) !important;
+}
+body.intro-page #introContinue.pressed{
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
