@@ -43,7 +43,7 @@
             Я люблю тебя за твою нежность, характер, улыбку, карие глаза, твои мысли, твою искренность и просто за то,
             какая ты есть. И если это только начало нашей истории — я очень хочу узнать, какой она станет дальше.
           </p>
-<span class="sign">Тот, кто очень счастлив, что встретил тебя 🤍</span>
+<span class="sign">Тот, кто очень счастлив, что встретил тебя 🤍</span>\n<span class="intro-continue" id="introContinue" role="button" tabindex="0">Продолжить</span>
 </div>
 <div class="flap"></div>
 <div class="seal">A</div>
@@ -54,10 +54,35 @@
 <script src="site.js" defer></script>
 <script>
 (function(){
-  const env=document.getElementById('envelope'); let timer=0;
-  function arm(){ clearTimeout(timer); timer=setTimeout(()=>{document.querySelector('.page-transition')?.classList.add('active');setTimeout(()=>location.replace('home.html'),620);},64500); }
-  if(env) env.addEventListener('click',arm,{once:true});
-  if(location.hash==='#intro') arm();
+  const intro=document.getElementById('intro');
+  const button=document.getElementById('introContinue');
+  const overlay=document.querySelector('.page-transition');
+  let started=false;
+
+  function continueStory(){
+    if(started || !intro || !button) return;
+    started=true;
+    button.classList.add('pressed');
+    button.setAttribute('aria-disabled','true');
+    intro.classList.add('continue-triggered');
+    document.dispatchEvent(new CustomEvent('intro:continue'));
+
+    setTimeout(()=>overlay?.classList.add('active'),5900);
+    setTimeout(()=>location.replace('home.html'),6520);
+  }
+
+  button?.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    continueStory();
+  });
+  button?.addEventListener('keydown',e=>{
+    if(e.key==='Enter' || e.key===' '){
+      e.preventDefault();
+      e.stopPropagation();
+      continueStory();
+    }
+  });
 })();
 </script>
 </body>
