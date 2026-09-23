@@ -78,7 +78,7 @@
           if(distanceInner) distanceInner.classList.add('mist-visible');
           distanceObserver.disconnect();
         });
-      },{threshold:[.18,.3],rootMargin:'0px 0px -8% 0px'});
+      },{threshold:[.28,.42],rootMargin:'0px 0px -14% 0px'});
       distanceObserver.observe(distanceSection);
     }
 
