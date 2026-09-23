@@ -4013,3 +4013,68 @@ body.final-page #angelHeartLayer.full-heart-100.heart-assembled .final-heart-ang
   }
   .wand-beam-v27::after{height:12px;filter:blur(5px);}
 }
+
+
+/* ===== v28: beam finishes by drawing a heart ===== */
+/* During the button-triggered cast, use the straight wand beam only. */
+.intro.continue-triggered .heart-spell-trail{
+  animation:none !important;
+  opacity:0 !important;
+}
+
+/* The heart appears only after the beam reaches the letter. */
+.intro.continue-triggered .heart-spell-heart{
+  animation:heartDrawV28 1.28s 2.48s cubic-bezier(.16,.82,.18,1) both !important;
+}
+.intro.continue-triggered .heart-spell-hit{
+  animation:heartHitV28 .95s 2.58s ease-out both !important;
+}
+.intro.continue-triggered .heart-spell-svg{
+  animation:spellLayerCleanupV28 1.2s 3.72s forwards ease-out !important;
+}
+
+@keyframes heartDrawV28{
+  0%{
+    opacity:0;
+    stroke-dashoffset:1;
+    transform:scale(.72);
+    transform-origin:51.5% 54.5%;
+  }
+  12%{opacity:1;}
+  68%{
+    opacity:1;
+    stroke-dashoffset:0;
+    transform:scale(1.03);
+  }
+  82%{
+    opacity:1;
+    stroke-dashoffset:0;
+    transform:scale(.98);
+  }
+  100%{
+    opacity:.95;
+    stroke-dashoffset:0;
+    transform:scale(1);
+  }
+}
+@keyframes heartHitV28{
+  0%{opacity:0;r:4;}
+  28%{opacity:1;r:15;}
+  100%{opacity:0;r:38;}
+}
+@keyframes spellLayerCleanupV28{
+  0%,55%{opacity:1;}
+  100%{opacity:0;}
+}
+
+/* Make the final part of the beam visibly converge on the heart point. */
+.wand-beam-v27.active{
+  animation:wandBeamFireV28 1.7s cubic-bezier(.16,.82,.16,1) both !important;
+}
+@keyframes wandBeamFireV28{
+  0%{opacity:0;transform-origin:0 50%;transform:translateY(-50%) scaleX(0);}
+  10%{opacity:1;}
+  58%{opacity:1;transform:translateY(-50%) scaleX(1);}
+  78%{opacity:1;transform:translateY(-50%) scaleX(1);}
+  100%{opacity:0;transform:translateY(-50%) scaleX(1);}
+}
