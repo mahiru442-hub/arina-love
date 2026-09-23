@@ -500,7 +500,7 @@
     const x1=tr.left+tr.width/2;
     const y1=tr.top+tr.height/2;
     const x2=lr.left+lr.width*.52;
-    const y2=lr.top+lr.height*.54;
+    const y2=lr.top+lr.height*.47;
 
     const dx=x2-x1;
     const dy=y2-y1;
