@@ -3356,3 +3356,194 @@ body.home-page .distance-memory::after{
   58%{opacity:.62;transform:translate3d(0,34px,0) scale(.996);}
   100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
 }
+
+
+/* ===== iPhone performance pass v21 ===== */
+@supports (-webkit-touch-callout:none){
+  html,body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+    -webkit-text-size-adjust:100%;
+  }
+
+  body{
+    min-height:100svh;
+    min-height:100dvh;
+  }
+
+  .intro,
+  .hero,
+  .finale,
+  .section,
+  .chapter-slide{
+    min-height:100svh;
+  }
+
+  /* Prevent expensive full-screen GPU blur/compositing on Safari. */
+  body::before,
+  .mist-page::before,
+  .mist-page::after,
+  .chapter-slide::before,
+  .chapter-slide::after,
+  .chapter-reveal::before,
+  .chapter-reveal::after,
+  .finale::before,
+  .halo{
+    filter:none !important;
+    -webkit-filter:none !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+
+  .reason-envelope,
+  .reason-letter,
+  .portrait-card,
+  .scroll-cue,
+  .portrait-caption{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+
+  /* Keep the visuals, but avoid huge paint areas. */
+  .section,
+  .chapter-slide,
+  .chapter-reveal{
+    content-visibility:auto;
+    contain-intrinsic-size:900px;
+  }
+
+  .portrait-art,
+  .route-art,
+  .memory-photo,
+  .memory-photo-large,
+  .real-wizard-image{
+    transform:translateZ(0);
+    backface-visibility:hidden;
+  }
+
+  .route-photo,
+  img{
+    max-width:100%;
+  }
+
+  /* Safari handles opacity/transform much more smoothly than blur/filter animation. */
+  .js .mist-page,
+  .js .chapter-slide,
+  .js .chapter-reveal,
+  .js .mist-inner,
+  .js .mist-item{
+    filter:none !important;
+    -webkit-filter:none !important;
+  }
+
+  /* Reduce shadow cost without changing the overall look. */
+  .reason-envelope,
+  .reason-letter,
+  .portrait-card{
+    box-shadow:0 10px 26px rgba(0,0,0,.18) !important;
+  }
+
+  /* First letter: keep scrolling native and smooth. */
+  .intro .letter-scroll{
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+  }
+
+  /* Avoid layout jumps around the iPhone browser bars. */
+  .intro-note{
+    top:calc(18px + env(safe-area-inset-top));
+  }
+  body.intro-page #introContinue{
+    max-width:calc(100vw - 32px);
+  }
+
+  /* Keep the expensive burn particles bounded on mobile. */
+  .green-spell-fire-v16{
+    width:150px !important;
+    height:180px !important;
+  }
+  .intro-burn-sparks-v23 i:nth-child(n+19){
+    display:none !important;
+  }
+
+  /* Final 100-angel heart: transform/opacity only, no filters. */
+  body.final-page .angel-heart-dot,
+  body.final-page .real-heart-angel{
+    filter:none !important;
+    -webkit-filter:none !important;
+    text-shadow:none !important;
+    will-change:transform,opacity;
+  }
+}
+
+@media(max-width:760px){
+  html{scroll-snap-type:none !important;}
+
+  body{
+    background-attachment:scroll !important;
+  }
+
+  .intro{
+    padding:
+      calc(18px + env(safe-area-inset-top))
+      14px
+      calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .envelope-wrap{
+    width:min(90vw,430px) !important;
+  }
+
+  .intro .letter{
+    left:4% !important;
+    right:4% !important;
+  }
+
+  .hero{
+    min-height:100svh !important;
+    min-height:100dvh !important;
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  body.home-page .distance-memory{
+    min-height:100svh !important;
+    min-height:100dvh !important;
+  }
+
+  body.home-page .distance-memory .route-art{
+    min-height:390px !important;
+  }
+
+  .reason-envelope summary{
+    min-height:148px !important;
+  }
+
+  .reason-letter{
+    margin-left:8px !important;
+    margin-right:8px !important;
+  }
+
+  .page-nav{
+    padding-left:env(safe-area-inset-left);
+    padding-right:env(safe-area-inset-right);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+
+  /* Tone down only the costly mobile filters; keep timing and choreography. */
+  @keyframes openLetterFloatV25{
+    0%{transform:translateY(62%) scale(.90);opacity:0;filter:none}
+    18%{transform:translateY(50%) scale(.93);opacity:.12;filter:none}
+    42%{transform:translateY(15%) scale(.97);opacity:.52;filter:none}
+    68%{transform:translateY(-18%) scale(1.006);opacity:.9;filter:none}
+    86%{transform:translateY(-28%) scale(1.003);opacity:1;filter:none}
+    100%{transform:translateY(-26%) scale(1);opacity:1;filter:none}
+  }
+
+  @keyframes realWizardEnterV14{
+    0%{opacity:0;transform:translate3d(-42px,16px,0) scale(.95);filter:none}
+    18%{opacity:1}
+    45%,100%{opacity:1;transform:translate3d(0,0,0) scale(1);filter:none}
+  }
+}
