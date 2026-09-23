@@ -3281,3 +3281,78 @@ body.home-page .distance-memory::before,
 body.home-page .distance-memory::after{
   display:none !important;
 }
+
+
+/* ===== vFinalPolish20: authoritative intro button + slow distance transition ===== */
+body.intro-page #introContinue{
+  position:fixed !important;
+  left:50% !important;
+  top:var(--continue-top, calc(50% + 300px)) !important;
+  right:auto !important;
+  bottom:auto !important;
+  margin:0 !important;
+  z-index:2147483000 !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate(-50%,24px) scale(.97) !important;
+  transition:
+    opacity .55s ease !important,
+    transform .85s cubic-bezier(.16,.82,.16,1) !important,
+    visibility .55s ease !important;
+}
+body.intro-page #introContinue.after-open-visible{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translate(-50%,0) scale(1) !important;
+}
+body.intro-page #introContinue:active{
+  transform:translate(-50%,1px) scale(.97) !important;
+}
+body.intro-page #introContinue.pressed{
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+/* Keep the button reachable if the opened paper is taller than a very short screen. */
+body.intro-page{
+  overflow-x:hidden !important;
+}
+@media(max-height:620px){
+  body.intro-page .intro{
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+  }
+}
+
+/* Distance scene: dedicated slow cinematic entrance, no competing blur/fog animations. */
+.js body.home-page .distance-memory{
+  opacity:0 !important;
+  transform:translate3d(0,96px,0) scale(.99) !important;
+  filter:none !important;
+  transition:none !important;
+  will-change:opacity,transform;
+}
+.js body.home-page .distance-memory.distance-visible{
+  animation:distanceSceneIn20 3.4s cubic-bezier(.12,.78,.14,1) both !important;
+}
+.js body.home-page .distance-memory .mist-inner,
+.js body.home-page .distance-memory .mist-inner.mist-visible{
+  opacity:1 !important;
+  transform:none !important;
+  filter:none !important;
+  transition:none !important;
+  animation:none !important;
+}
+body.home-page .distance-memory::before,
+body.home-page .distance-memory::after{
+  display:none !important;
+}
+@keyframes distanceSceneIn20{
+  0%{opacity:0;transform:translate3d(0,96px,0) scale(.99);}
+  24%{opacity:.14;}
+  58%{opacity:.62;transform:translate3d(0,34px,0) scale(.996);}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
+}
