@@ -481,6 +481,7 @@
     });
     addEventListener('resize',()=>requestAnimationFrame(layoutTargets),{passive:true});
   }
+})();
 
 /* Reveal the intro Continue button 30 seconds after the first letter is opened. */
 (function(){
