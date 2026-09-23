@@ -2720,3 +2720,93 @@ body.final-page .angel-heart-layer { pointer-events:none; }
 .intro:target .heart-spell-hit{animation:heartHit .92s 60.30s ease-out both !important;}
 .intro:target .spell-flash{animation:spellFlashV13 1.05s 60.22s forwards ease-out !important;}
 .intro:target .heart-spell-svg{animation:spellLayerCleanupV14 1.35s 61.08s forwards ease-out !important;}
+
+
+/* ===== vContinue: intro waits for the reader, then Malfoy starts the transition ===== */
+.intro .letter{
+  padding-bottom:88px !important;
+}
+.intro-continue{
+  position:absolute;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%) translateY(8px);
+  z-index:30;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:148px;
+  min-height:44px;
+  padding:11px 22px;
+  border-radius:999px;
+  border:1px solid rgba(125,63,85,.24);
+  background:linear-gradient(145deg,#c78fa4,#a76079);
+  color:#fffafc;
+  font:600 14px/1 Inter,ui-sans-serif,system-ui,sans-serif;
+  letter-spacing:.03em;
+  box-shadow:0 10px 24px rgba(83,38,55,.22);
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s ease,transform .35s ease,filter .25s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.intro:target .intro-continue{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+.intro-continue:active{transform:translateX(-50%) scale(.97);}
+.intro-continue.pressed{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateX(-50%) translateY(8px) !important;
+}
+
+/* Disable every old time-based intro ending. Nothing happens until Continue is pressed. */
+.intro:target{animation:none !important;}
+.intro:target .wizard.real-wizard-v14,
+.intro:target .real-wizard-image,
+.intro:target .real-wand-tip::before,
+.intro:target .real-wand-tip::after,
+.intro:target .heart-spell-trail,
+.intro:target .heart-spell-heart,
+.intro:target .heart-spell-hit,
+.intro:target .spell-flash,
+.intro:target .heart-spell-svg{
+  animation:none !important;
+}
+
+/* Restore the complete Malfoy cast sequence immediately after Continue. */
+.intro.continue-triggered .wizard.real-wizard-v14{
+  animation:realWizardEnterV14 5.6s 0s forwards cubic-bezier(.18,.82,.2,1) !important;
+}
+.intro.continue-triggered .real-wizard-image{
+  animation:realWizardCastV14 1.45s 1.14s both cubic-bezier(.2,.82,.18,1) !important;
+  transform-origin:52% 70%;
+}
+.intro.continue-triggered .real-wand-tip::before{
+  animation:realWandGlowV14 1.55s 1.42s both ease-out !important;
+}
+.intro.continue-triggered .real-wand-tip::after{
+  animation:realWandAuraV14 1.75s 1.36s both ease-out !important;
+}
+.intro.continue-triggered .heart-spell-trail{
+  animation:heartTrail 1.05s 1.58s cubic-bezier(.2,.84,.2,1) both !important;
+}
+.intro.continue-triggered .heart-spell-heart{
+  animation:heartDraw .92s 2.10s cubic-bezier(.16,.82,.18,1) both !important;
+}
+.intro.continue-triggered .heart-spell-hit{
+  animation:heartHit .92s 2.30s ease-out both !important;
+}
+.intro.continue-triggered .spell-flash{
+  animation:spellFlashV13 1.05s 2.22s forwards ease-out !important;
+}
+.intro.continue-triggered .heart-spell-svg{
+  animation:spellLayerCleanupV14 1.35s 3.08s forwards ease-out !important;
+}
+@media(max-width:760px){
+  .intro-continue{bottom:16px;min-height:46px;min-width:156px;}
+  .intro .letter{padding-bottom:84px !important;}
+}
