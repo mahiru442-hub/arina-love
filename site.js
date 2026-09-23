@@ -40,6 +40,7 @@
     // Туманное появление секций + плавные «слайды» при прокрутке.
     function revealVisible() {
       document.querySelectorAll('.mist-page, .mist-inner, .mist-item').forEach((el, i) => {
+        if (el.closest('.distance-memory')) return;
         const r = el.getBoundingClientRect();
         if (r.top < window.innerHeight * .92 && r.bottom > 0) {
           const delay = el.classList.contains('mist-item') ? Math.min((i % 8) * 45, 260) : 0;
@@ -52,6 +53,10 @@
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         const el = entry.target;
+        if (el.closest('.distance-memory')) {
+          mistObserver.unobserve(el);
+          return;
+        }
         const siblings = el.parentElement ? [...el.parentElement.querySelectorAll('.mist-item')] : [];
         const idx = siblings.indexOf(el);
         const delay = el.classList.contains('mist-item') && idx >= 0 ? (idx % 6) * 55 : 0;
@@ -61,6 +66,21 @@
     }, { threshold: .075, rootMargin: '0px 0px -3% 0px' });
 
     document.querySelectorAll('.mist-page, .mist-inner, .mist-item').forEach(el => mistObserver.observe(el));
+
+    // Dedicated slow reveal for the distance block so it cannot be pre-revealed on page load.
+    const distanceSection=document.querySelector('.distance-memory');
+    if(distanceSection){
+      const distanceInner=distanceSection.querySelector('.mist-inner');
+      const distanceObserver=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(!entry.isIntersecting || entry.intersectionRatio < .18) return;
+          distanceSection.classList.add('mist-visible','distance-visible');
+          if(distanceInner) distanceInner.classList.add('mist-visible');
+          distanceObserver.disconnect();
+        });
+      },{threshold:[.18,.3],rootMargin:'0px 0px -8% 0px'});
+      distanceObserver.observe(distanceSection);
+    }
 
     // v5: не перехватываем нативное открытие <details>. Это надёжнее на iPhone/Safari.
     // Само состояние [open] запускает огонь и полёт ангелочка через CSS.
@@ -498,12 +518,8 @@
     const h=button.offsetHeight||50;
     let top=r.bottom+gap;
 
-    // Keep it visible on short iPhone screens without placing it on the paper.
-    const maxTop=window.innerHeight-h-18;
-    if(top>maxTop) top=maxTop;
-
+    button.style.setProperty('--continue-top',Math.round(top)+'px');
     button.style.left='50%';
-    button.style.top=Math.round(top)+'px';
     button.style.bottom='auto';
   }
 
