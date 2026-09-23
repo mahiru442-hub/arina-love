@@ -3037,3 +3037,51 @@ body.final-page .angel-heart-layer { pointer-events:none; }
   position:relative;
   z-index:20;
 }
+
+
+/* ===== vRealAngelHeartFix: Safari-safe heart assembly ===== */
+body.final-page .finale-inner{
+  padding-bottom:310px !important;
+}
+body.final-page .angel-heart-layer{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:14 !important;
+  overflow:visible !important;
+  pointer-events:none !important;
+}
+body.final-page .real-heart-angel{
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  z-index:15 !important;
+  opacity:0 !important;
+  transform:translate3d(var(--sx),var(--sy),0) translate(-50%,-50%) scale(.72) rotate(-12deg) !important;
+  transition:none !important;
+  animation:none !important;
+}
+body.final-page .angel-heart-layer.heart-assembling .real-heart-angel{
+  animation:realAngelToHeartFixed 1.65s cubic-bezier(.16,.78,.16,1) forwards !important;
+}
+@keyframes realAngelToHeartFixed{
+  0%{
+    opacity:0;
+    transform:translate3d(var(--sx),var(--sy),0) translate(-50%,-50%) scale(.72) rotate(-12deg);
+  }
+  14%{opacity:1;}
+  58%{
+    opacity:1;
+    transform:translate3d(var(--mx),var(--my),0) translate(-50%,-50%) scale(1.08) rotate(8deg);
+  }
+  100%{
+    opacity:1;
+    transform:translate3d(var(--tx),var(--ty),0) translate(-50%,-50%) scale(1) rotate(0);
+  }
+}
+body.final-page .final-heart-note{
+  display:none !important;
+}
+@media(max-width:760px){
+  body.final-page .finale-inner{padding-bottom:270px !important;}
+  body.final-page .angel-heart-dot{font-size:13px !important;}
+}
