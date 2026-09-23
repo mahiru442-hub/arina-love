@@ -3235,3 +3235,49 @@ body.home-page .distance-memory{
   transform:none !important;
   filter:none !important;
 }
+
+
+/* ===== vPolish19: exact button placement + genuinely soft distance reveal ===== */
+body.intro-page .intro-continue,
+body.intro-page .intro:target .intro-continue,
+body.intro-page .intro:target .intro-continue.read-complete{
+  position:fixed !important;
+  left:50% !important;
+  right:auto !important;
+  top:auto;
+  bottom:auto !important;
+  margin:0 !important;
+  transform:translateX(-50%) translateY(26px) scale(.97) !important;
+}
+body.intro-page .intro:target .intro-continue.after-open-visible{
+  transform:translateX(-50%) translateY(0) scale(1) !important;
+}
+
+/* One slow, clean reveal. No blur/filter stack: smoother on iPhone Safari. */
+.js body.home-page .distance-memory{
+  content-visibility:visible !important;
+  opacity:0 !important;
+  transform:translate3d(0,72px,0) scale(.995) !important;
+  filter:none !important;
+  will-change:opacity,transform;
+  backface-visibility:hidden;
+  transition:
+    opacity 2.6s cubic-bezier(.18,.72,.16,1) !important,
+    transform 3.0s cubic-bezier(.14,.82,.14,1) !important;
+}
+.js body.home-page .distance-memory.mist-visible{
+  opacity:1 !important;
+  transform:translate3d(0,0,0) scale(1) !important;
+  filter:none !important;
+}
+.js body.home-page .distance-memory .mist-inner,
+.js body.home-page .distance-memory .mist-inner.mist-visible{
+  opacity:1 !important;
+  transform:none !important;
+  filter:none !important;
+  transition:none !important;
+}
+body.home-page .distance-memory::before,
+body.home-page .distance-memory::after{
+  display:none !important;
+}
