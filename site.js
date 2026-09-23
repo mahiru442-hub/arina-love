@@ -417,74 +417,70 @@
     io.observe(endMarker);
   }
 
-  // Final page: use ONLY actually completed letters and animate those angels into a heart.
+  // Final page: always assemble the full heart from all 100 angels.
   const layer=document.getElementById('angelHeartLayer');
   if(layer && document.body.classList.contains('final-page')){
-    const opened=[...getOpened()].sort((a,b)=>a-b);
-    const count=opened.length;
+    const angels=Array.from({length:100},(_,i)=>i+1);
+    const count=angels.length;
     layer.innerHTML='';
 
-    if(count>0){
-      const finale=document.querySelector('.finale-inner');
-      const phrase=document.querySelector('.final-phrase');
+    const finale=document.querySelector('.finale-inner');
+    const phrase=document.querySelector('.final-phrase');
 
-      function targetPoint(i,total){
-        const t=(Math.PI*2*i/total)-Math.PI;
-        const x=16*Math.pow(Math.sin(t),3);
-        const y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
-        return {x,y};
-      }
-
-      function layoutTargets(){
-        if(!finale||!phrase) return;
-        const fr=finale.getBoundingClientRect();
-        const pr=phrase.getBoundingClientRect();
-        const narrow=innerWidth<=760;
-        const cx=fr.width*.5;
-        const cy=(pr.bottom-fr.top)+(narrow?138:164);
-        const scaleX=narrow?4.0:5.6;
-        const scaleY=narrow?3.8:5.2;
-
-        layer.querySelectorAll('.angel-heart-dot').forEach((dot,i)=>{
-          const p=targetPoint(i,count);
-          const tx=cx+p.x*scaleX;
-          const ty=cy+p.y*scaleY;
-          const side=i%4;
-          let sx,sy;
-          if(side===0){ sx=-90; sy=ty-70; }
-          else if(side===1){ sx=fr.width+90; sy=ty+55; }
-          else if(side===2){ sx=tx-80; sy=-120; }
-          else { sx=tx+90; sy=fr.height+180; }
-          const mx=(sx+tx)/2;
-          const my=(sy+ty)/2-55;
-
-          dot.style.setProperty('--sx',sx+'px');
-          dot.style.setProperty('--sy',sy+'px');
-          dot.style.setProperty('--mx',mx+'px');
-          dot.style.setProperty('--my',my+'px');
-          dot.style.setProperty('--tx',tx+'px');
-          dot.style.setProperty('--ty',ty+'px');
-        });
-      }
-
-      opened.forEach((n,i)=>{
-        const dot=document.createElement('span');
-        dot.className='angel-heart-dot real-heart-angel';
-        dot.dataset.reason=String(n);
-        dot.textContent='😇';
-
-        dot.style.animationDelay=(i*48)+'ms';
-        layer.appendChild(dot);
-      });
-
-      layoutTargets();
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>layer.classList.add('heart-assembling'));
-      });
-      addEventListener('resize',()=>requestAnimationFrame(layoutTargets),{passive:true});
+    function targetPoint(i,total){
+      const t=(Math.PI*2*i/total)-Math.PI;
+      const x=16*Math.pow(Math.sin(t),3);
+      const y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+      return {x,y};
     }
+
+    function layoutTargets(){
+      if(!finale||!phrase) return;
+      const fr=finale.getBoundingClientRect();
+      const pr=phrase.getBoundingClientRect();
+      const narrow=innerWidth<=760;
+      const cx=fr.width*.5;
+      const cy=(pr.bottom-fr.top)+(narrow?138:164);
+      const scaleX=narrow?4.0:5.6;
+      const scaleY=narrow?3.8:5.2;
+
+      layer.querySelectorAll('.angel-heart-dot').forEach((dot,i)=>{
+        const p=targetPoint(i,count);
+        const tx=cx+p.x*scaleX;
+        const ty=cy+p.y*scaleY;
+        const side=i%4;
+        let sx,sy;
+        if(side===0){ sx=-90; sy=ty-70; }
+        else if(side===1){ sx=fr.width+90; sy=ty+55; }
+        else if(side===2){ sx=tx-80; sy=-120; }
+        else { sx=tx+90; sy=fr.height+180; }
+        const mx=(sx+tx)/2;
+        const my=(sy+ty)/2-55;
+
+        dot.style.setProperty('--sx',sx+'px');
+        dot.style.setProperty('--sy',sy+'px');
+        dot.style.setProperty('--mx',mx+'px');
+        dot.style.setProperty('--my',my+'px');
+        dot.style.setProperty('--tx',tx+'px');
+        dot.style.setProperty('--ty',ty+'px');
+      });
+    }
+
+    angels.forEach((n,i)=>{
+      const dot=document.createElement('span');
+      dot.className='angel-heart-dot real-heart-angel';
+      dot.dataset.reason=String(n);
+      dot.textContent='😇';
+      dot.style.animationDelay=(i*26)+'ms';
+      layer.appendChild(dot);
+    });
+
+    layoutTargets();
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>layer.classList.add('heart-assembling'));
+    });
+    addEventListener('resize',()=>requestAnimationFrame(layoutTargets),{passive:true});
   }
-})();
 
 /* Reveal the intro Continue button 30 seconds after the first letter is opened. */
 (function(){
