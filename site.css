@@ -3913,3 +3913,103 @@ body.final-page #angelHeartLayer.full-heart-100.heart-assembled .final-heart-ang
     animation-duration:2.7s !important;
   }
 }
+
+
+/* ===== v27: distance uses next-page reveal + real wand beam ===== */
+
+/* Same reveal family as the 100-reasons page. */
+.js body.home-page .distance-memory{
+  opacity:0 !important;
+  transform:translateY(110px) scale(.965) !important;
+  filter:none !important;
+  animation:none !important;
+  transition:
+    opacity 1.35s cubic-bezier(.16,.78,.18,1) !important,
+    transform 1.55s cubic-bezier(.14,.82,.16,1) !important;
+}
+.js body.home-page .distance-memory.mist-visible,
+.js body.home-page .distance-memory.distance-visible{
+  opacity:1 !important;
+  transform:translateY(0) scale(1) !important;
+}
+.js body.home-page .distance-memory .portrait-card{
+  opacity:1 !important;
+  transform:none !important;
+  animation:none !important;
+  transition:none !important;
+}
+.js body.home-page .distance-memory .portrait-copy,
+.js body.home-page .distance-memory .route-art{
+  opacity:0 !important;
+  transform:translateY(26px) !important;
+  filter:none !important;
+  animation:none !important;
+  transition:
+    opacity .8s ease !important,
+    transform .9s cubic-bezier(.18,.8,.2,1) !important;
+}
+.js body.home-page .distance-memory.distance-visible .portrait-copy,
+.js body.home-page .distance-memory.distance-visible .route-art{
+  opacity:1 !important;
+  transform:none !important;
+}
+.js body.home-page .distance-memory.distance-visible .route-art{
+  transition-delay:.12s !important;
+}
+
+/* Beam physically starts at the wand tip and shoots toward the letter. */
+.wand-beam-v27{
+  position:fixed;
+  left:0;
+  top:0;
+  height:6px;
+  width:0;
+  z-index:1000003;
+  pointer-events:none;
+  opacity:0;
+  transform-origin:0 50%;
+  border-radius:999px;
+  background:
+    linear-gradient(90deg,
+      rgba(240,255,245,.98) 0%,
+      rgba(115,255,151,.98) 22%,
+      rgba(45,255,102,.95) 60%,
+      rgba(22,235,78,.15) 100%);
+  box-shadow:
+    0 0 8px rgba(225,255,232,.95),
+    0 0 18px rgba(74,255,119,.95),
+    0 0 34px rgba(31,246,91,.72);
+  will-change:transform,opacity;
+}
+.wand-beam-v27::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  height:18px;
+  transform:translateY(-50%);
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(120,255,153,.35),rgba(35,255,92,.08));
+  filter:blur(7px);
+}
+.wand-beam-v27.active{
+  animation:wandBeamFireV27 1.55s cubic-bezier(.16,.82,.16,1) both;
+}
+@keyframes wandBeamFireV27{
+  0%{opacity:0;transform:translateY(-50%) rotate(var(--beam-angle,0deg)) scaleX(0);}
+  14%{opacity:1;}
+  45%{opacity:1;}
+  78%{opacity:.95;}
+  100%{opacity:0;}
+}
+@media(max-width:760px){
+  .wand-beam-v27{
+    height:4px;
+    box-shadow:
+      0 0 6px rgba(225,255,232,.9),
+      0 0 14px rgba(74,255,119,.9),
+      0 0 24px rgba(31,246,91,.62);
+  }
+  .wand-beam-v27::after{height:12px;filter:blur(5px);}
+}
