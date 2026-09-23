@@ -3085,3 +3085,54 @@ body.final-page .final-heart-note{
   body.final-page .finale-inner{padding-bottom:270px !important;}
   body.final-page .angel-heart-dot{font-size:13px !important;}
 }
+
+
+/* ===== vDistanceImmediate: distance photo/text first after the opening letter ===== */
+body.home-page .distance-memory{
+  min-height:100svh !important;
+  display:flex !important;
+  align-items:center !important;
+  padding-top:72px !important;
+  padding-bottom:72px !important;
+}
+body.home-page .distance-memory .portrait-card{
+  width:min(1100px,92vw) !important;
+}
+body.home-page .distance-memory .route-art{
+  position:relative !important;
+  overflow:hidden !important;
+  min-height:520px !important;
+  background:#0d0b0f !important;
+}
+body.home-page .distance-memory .route-photo{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  display:block !important;
+  z-index:1 !important;
+}
+body.home-page .distance-memory .route-art::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:2 !important;
+  pointer-events:none !important;
+  background:linear-gradient(180deg,rgba(11,8,13,.02),rgba(11,8,13,.02) 58%,rgba(11,8,13,.68) 100%) !important;
+}
+body.home-page .distance-memory .portrait-caption{
+  position:absolute !important;
+  z-index:3 !important;
+}
+@media(max-width:760px){
+  body.home-page .distance-memory{
+    min-height:100svh !important;
+    padding-top:58px !important;
+    padding-bottom:58px !important;
+  }
+  body.home-page .distance-memory .route-art{
+    min-height:430px !important;
+  }
+}
