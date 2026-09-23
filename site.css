@@ -2995,3 +2995,45 @@ body.final-page .angel-heart-layer { pointer-events:none; }
     bottom:92px !important;
   }
 }
+
+
+/* ===== vRealAngelHeart: real opened letters fly in and form the final heart ===== */
+.angel-heart-layer{
+  position:absolute !important;
+  inset:0 !important;
+  overflow:visible !important;
+  pointer-events:none !important;
+}
+.real-heart-angel{
+  position:fixed !important;
+  left:0 !important;
+  top:0 !important;
+  z-index:999999 !important;
+  opacity:0;
+  transform:translate3d(var(--sx),var(--sy),0) scale(.72) rotate(-12deg) !important;
+  transition:none !important;
+  animation:none !important;
+  will-change:transform,opacity;
+}
+.angel-heart-layer.heart-assembling .real-heart-angel{
+  animation:realAngelToHeart 1.55s cubic-bezier(.16,.78,.16,1) forwards !important;
+}
+@keyframes realAngelToHeart{
+  0%{
+    opacity:0;
+    transform:translate3d(var(--sx),var(--sy),0) scale(.72) rotate(-12deg);
+  }
+  16%{opacity:1;}
+  58%{
+    opacity:1;
+    transform:translate3d(calc((var(--sx) + var(--tx))/2),calc((var(--sy) + var(--ty))/2 - 55px),0) scale(1.08) rotate(8deg);
+  }
+  100%{
+    opacity:.96;
+    transform:translate3d(var(--tx),var(--ty),0) translate(-50%,-50%) scale(1) rotate(0);
+  }
+}
+.final-heart-note{
+  position:relative;
+  z-index:20;
+}
