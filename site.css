@@ -3790,3 +3790,126 @@ body.final-page #angelHeartLayer.heart-assembling .real-heart-angel{
   body.final-page .finale-inner{padding-bottom:300px !important;}
   body.final-page .real-heart-angel{font-size:12px !important;}
 }
+
+
+/* ===== v26 route reveal + 100-angel heart ===== */
+
+/* Route section: no pre-finished parent animation. The actual card reveals only when it enters view. */
+.js body.home-page .distance-memory{
+  opacity:1 !important;
+  transform:none !important;
+  filter:none !important;
+  animation:none !important;
+  transition:none !important;
+}
+.js body.home-page .distance-memory .portrait-card{
+  opacity:0 !important;
+  transform:translate3d(0,52px,0) scale(.985) !important;
+  filter:none !important;
+  animation:none !important;
+  transition:none !important;
+}
+.js body.home-page .distance-memory .portrait-copy{
+  opacity:0 !important;
+  transform:translate3d(-22px,20px,0) !important;
+}
+.js body.home-page .distance-memory .route-art{
+  opacity:0 !important;
+  transform:translate3d(22px,24px,0) scale(.985) !important;
+}
+.js body.home-page .distance-memory.distance-visible .portrait-card{
+  animation:distanceCardIn26 2.65s cubic-bezier(.12,.70,.14,1) both !important;
+}
+.js body.home-page .distance-memory.distance-visible .portrait-copy{
+  animation:distanceCopyIn26 2.35s .18s cubic-bezier(.18,.84,.18,1) both !important;
+}
+.js body.home-page .distance-memory.distance-visible .route-art{
+  animation:distancePhotoIn26 2.55s .34s cubic-bezier(.12,.70,.14,1) both !important;
+}
+@keyframes distanceCardIn26{
+  0%{opacity:0;transform:translate3d(0,52px,0) scale(.985);}
+  42%{opacity:.58;}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
+}
+@keyframes distanceCopyIn26{
+  0%{opacity:0;transform:translate3d(-22px,20px,0);}
+  45%{opacity:.62;}
+  100%{opacity:1;transform:translate3d(0,0,0);}
+}
+@keyframes distancePhotoIn26{
+  0%{opacity:0;transform:translate3d(22px,24px,0) scale(.985);}
+  42%{opacity:.58;}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
+}
+
+/* Final: a dedicated heart directly below the final text. */
+body.final-page .finale-inner{
+  padding-bottom:40px !important;
+  overflow:visible !important;
+}
+body.final-page #angelHeartLayer.full-heart-100{
+  position:relative !important;
+  inset:auto !important;
+  display:block !important;
+  width:min(370px,90vw) !important;
+  height:315px !important;
+  margin:46px auto 6px !important;
+  overflow:visible !important;
+  pointer-events:none !important;
+  z-index:30 !important;
+}
+body.final-page #angelHeartLayer.full-heart-100 .final-heart-angel{
+  position:absolute !important;
+  z-index:31 !important;
+  display:block !important;
+  font-size:13px !important;
+  line-height:1 !important;
+  opacity:0 !important;
+  filter:none !important;
+  -webkit-filter:none !important;
+  text-shadow:none !important;
+  transform:
+    translate(-50%,-50%)
+    translate3d(var(--from-x),var(--from-y),0)
+    scale(.55) !important;
+  animation:none !important;
+  will-change:transform,opacity;
+}
+body.final-page #angelHeartLayer.full-heart-100.heart-assembled .final-heart-angel{
+  animation:finalHeartGather26 1.95s cubic-bezier(.12,.70,.14,1) forwards !important;
+}
+@keyframes finalHeartGather26{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) translate3d(var(--from-x),var(--from-y),0) scale(.55);
+  }
+  18%{opacity:1;}
+  65%{
+    opacity:1;
+    transform:translate(-50%,-50%) translate3d(0,-7px,0) scale(1.08);
+  }
+  100%{
+    opacity:1;
+    transform:translate(-50%,-50%) translate3d(0,0,0) scale(1);
+  }
+}
+@media(max-width:760px){
+  body.final-page #angelHeartLayer.full-heart-100{
+    width:min(335px,91vw) !important;
+    height:286px !important;
+    margin-top:38px !important;
+  }
+  body.final-page #angelHeartLayer.full-heart-100 .final-heart-angel{
+    font-size:11px !important;
+  }
+
+  .js body.home-page .distance-memory.distance-visible .portrait-card{
+    animation-duration:2.8s !important;
+  }
+  .js body.home-page .distance-memory.distance-visible .portrait-copy{
+    animation-duration:2.5s !important;
+  }
+  .js body.home-page .distance-memory.distance-visible .route-art{
+    animation-duration:2.7s !important;
+  }
+}
