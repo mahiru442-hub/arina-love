@@ -424,9 +424,6 @@
   if(layer && document.body.classList.contains('final-page')){
     const opened=[...getOpened()].sort((a,b)=>a-b);
     const count=opened.length;
-    const note=document.querySelector('.final-heart-note');
-
-    if(note) note.textContent=`Открыто писем: ${count} из 100`;
     layer.innerHTML='';
 
     if(count>0){
@@ -445,15 +442,30 @@
         const fr=finale.getBoundingClientRect();
         const pr=phrase.getBoundingClientRect();
         const narrow=innerWidth<=760;
-        const cx=narrow?fr.width*.5:fr.width*.5;
-        const cy=(pr.bottom-fr.top)+(narrow?118:142);
-        const sx=narrow?4.2:5.8;
-        const sy=narrow?4.0:5.5;
+        const cx=fr.width*.5;
+        const cy=(pr.bottom-fr.top)+(narrow?138:164);
+        const scaleX=narrow?4.0:5.6;
+        const scaleY=narrow?3.8:5.2;
 
         layer.querySelectorAll('.angel-heart-dot').forEach((dot,i)=>{
           const p=targetPoint(i,count);
-          dot.style.setProperty('--tx',(cx+p.x*sx)+'px');
-          dot.style.setProperty('--ty',(cy+p.y*sy)+'px');
+          const tx=cx+p.x*scaleX;
+          const ty=cy+p.y*scaleY;
+          const side=i%4;
+          let sx,sy;
+          if(side===0){ sx=-90; sy=ty-70; }
+          else if(side===1){ sx=fr.width+90; sy=ty+55; }
+          else if(side===2){ sx=tx-80; sy=-120; }
+          else { sx=tx+90; sy=fr.height+180; }
+          const mx=(sx+tx)/2;
+          const my=(sy+ty)/2-55;
+
+          dot.style.setProperty('--sx',sx+'px');
+          dot.style.setProperty('--sy',sy+'px');
+          dot.style.setProperty('--mx',mx+'px');
+          dot.style.setProperty('--my',my+'px');
+          dot.style.setProperty('--tx',tx+'px');
+          dot.style.setProperty('--ty',ty+'px');
         });
       }
 
@@ -463,23 +475,14 @@
         dot.dataset.reason=String(n);
         dot.textContent='😇';
 
-        const side=i%4;
-        const vw=Math.max(document.documentElement.clientWidth,innerWidth||0);
-        const vh=Math.max(document.documentElement.clientHeight,innerHeight||0);
-        let sx,sy;
-        if(side===0){ sx=-60; sy=vh*(.18+((i*37)%60)/100); }
-        else if(side===1){ sx=vw+60; sy=vh*(.16+((i*29)%64)/100); }
-        else if(side===2){ sx=vw*(.15+((i*41)%70)/100); sy=-60; }
-        else { sx=vw*(.12+((i*31)%74)/100); sy=vh+60; }
-
-        dot.style.setProperty('--sx',sx+'px');
-        dot.style.setProperty('--sy',sy+'px');
-        dot.style.animationDelay=(i*55)+'ms';
+        dot.style.animationDelay=(i*48)+'ms';
         layer.appendChild(dot);
       });
 
       layoutTargets();
-      requestAnimationFrame(()=>layer.classList.add('heart-assembling'));
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>layer.classList.add('heart-assembling'));
+      });
       addEventListener('resize',()=>requestAnimationFrame(layoutTargets),{passive:true});
     }
   }
