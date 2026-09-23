@@ -7,7 +7,7 @@
 <meta name="description" content="Для Арины 🤍">
 <title>Для Арины 🤍</title>
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="site.css?v=20260923-23">
+<link rel="stylesheet" href="site.css?v=20260923-24">
 
 </head>
 <body class="intro-page">
@@ -54,74 +54,40 @@
 <button class="intro-continue" id="introContinue" type="button">Продолжить</button>
 </div>
 </div>
-<script src="site.js?v=20260923-23" defer></script>
+<script src="site.js?v=20260923-24" defer></script>
 <script>
 (function(){
   const intro=document.getElementById('intro');
+  const envelope=document.getElementById('envelope');
   const button=document.getElementById('introContinue');
   const overlay=document.querySelector('.page-transition');
-  const envelope=document.getElementById('envelope');
-  const letter=document.getElementById('letter');
+  if(!intro || !envelope || !button) return;
+
   let started=false;
-  let revealTimer=0;
+  let showTimer=0;
 
-  function placeContinue(){
-    if(!button || !letter) return;
-    const r=letter.getBoundingClientRect();
-    const vv=window.visualViewport;
-    const viewportBottom=vv ? vv.offsetTop+vv.height : window.innerHeight;
-    const h=button.offsetHeight||50;
-    const desired=r.bottom+24;
-    const maxTop=viewportBottom-h-22;
-    const top=Math.min(desired,maxTop);
-    button.style.setProperty('--continue-top',Math.round(top)+'px');
-  }
-
-  function revealContinue(){
-    clearTimeout(revealTimer);
+  function showContinue(){
+    clearTimeout(showTimer);
     button.classList.remove('after-open-visible');
-    revealTimer=setTimeout(()=>{
-      placeContinue();
-      button.classList.add('after-open-visible');
-    },3900);
+    showTimer=setTimeout(()=>{
+      if(location.hash==='#intro') button.classList.add('after-open-visible');
+    },4000);
   }
 
-  envelope?.addEventListener('click',revealContinue,{once:true});
-  if(location.hash==='#intro') revealContinue();
+  envelope.addEventListener('click',showContinue,{once:true});
+  if(location.hash==='#intro') showContinue();
 
-  window.addEventListener('resize',()=>{
-    if(button?.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
-  },{passive:true});
-  window.visualViewport?.addEventListener('resize',()=>{
-    if(button?.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
-  },{passive:true});
-  window.visualViewport?.addEventListener('scroll',()=>{
-    if(button?.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
-  },{passive:true});
-
-  function continueStory(){
-    if(started || !intro || !button) return;
+  button.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    if(started) return;
     started=true;
     button.classList.add('pressed');
-    button.setAttribute('aria-disabled','true');
     intro.classList.add('continue-triggered');
     document.dispatchEvent(new CustomEvent('intro:continue'));
 
-    setTimeout(()=>overlay?.classList.add('active'),5900);
-    setTimeout(()=>location.replace('home.html'),6520);
-  }
-
-  button?.addEventListener('click',e=>{
-    e.preventDefault();
-    e.stopPropagation();
-    continueStory();
-  });
-  button?.addEventListener('keydown',e=>{
-    if(e.key==='Enter' || e.key===' '){
-      e.preventDefault();
-      e.stopPropagation();
-      continueStory();
-    }
+    setTimeout(()=>overlay?.classList.add('active'),5350);
+    setTimeout(()=>location.replace('home.html'),6900);
   });
 })();
 </script>
