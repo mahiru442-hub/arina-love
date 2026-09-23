@@ -3617,3 +3617,66 @@ body.intro-page #introContinue.pressed{
   opacity:0 !important;
   pointer-events:none !important;
 }
+
+
+/* ===== v24 simple reliable Continue + smooth transition ===== */
+body.intro-page #introContinue{
+  position:fixed !important;
+  left:50% !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:calc(34px + env(safe-area-inset-bottom)) !important;
+  margin:0 !important;
+  z-index:2147483647 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:176px !important;
+  min-height:52px !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate3d(-50%,34px,0) scale(.96) !important;
+  transition:
+    opacity .65s ease !important,
+    transform .9s cubic-bezier(.16,.82,.16,1) !important,
+    visibility .65s ease !important;
+}
+body.intro-page #introContinue.after-open-visible{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translate3d(-50%,0,0) scale(1) !important;
+}
+body.intro-page #introContinue:active{
+  transform:translate3d(-50%,1px,0) scale(.97) !important;
+}
+body.intro-page #introContinue.pressed{
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate3d(-50%,18px,0) scale(.97) !important;
+}
+body.intro-page .page-transition{
+  transition:opacity 1.45s cubic-bezier(.2,.72,.18,1) !important;
+}
+
+/* Smooth arrival on the page after the intro. */
+body.home-page .site{
+  animation:homePageSoftIn24 1.55s cubic-bezier(.18,.78,.18,1) both !important;
+}
+@keyframes homePageSoftIn24{
+  from{opacity:0;transform:translate3d(0,18px,0);}
+  to{opacity:1;transform:translate3d(0,0,0);}
+}
+
+/* Keep the distance block transition slow and clean on iPhone. */
+.js body.home-page .distance-memory.distance-visible{
+  animation:distanceSceneIn24 3.2s cubic-bezier(.14,.76,.16,1) both !important;
+}
+@keyframes distanceSceneIn24{
+  0%{opacity:0;transform:translate3d(0,72px,0) scale(.994);}
+  35%{opacity:.28;}
+  70%{opacity:.78;transform:translate3d(0,18px,0) scale(.998);}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
+}
