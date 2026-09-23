@@ -345,16 +345,16 @@
 
 // ===== real split-site progress + real angel heart =====
 (function(){
-  const key='arina-opened-reasons-v2';
+  const key='arina-opened-reasons-session-v3';
 
   function getOpened(){
     try{
-      const raw=JSON.parse(localStorage.getItem(key)||'[]');
+      const raw=JSON.parse(sessionStorage.getItem(key)||'[]');
       return new Set(raw.map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=100));
     }catch(_){ return new Set(); }
   }
   function saveOpened(set){
-    try{ localStorage.setItem(key,JSON.stringify([...set].sort((a,b)=>a-b))); }catch(_){}
+    try{ sessionStorage.setItem(key,JSON.stringify([...set].sort((a,b)=>a-b))); }catch(_){}
   }
   function markOpened(n){
     if(!Number.isInteger(n)||n<1||n>100) return;
@@ -362,6 +362,18 @@
     if(opened.has(n)) return;
     opened.add(n);
     saveOpened(opened);
+  }
+
+  // A new opening of the first envelope starts a fresh real run.
+  const introEnvelope=document.getElementById('envelope');
+  if(introEnvelope && document.body.classList.contains('intro-page')){
+    introEnvelope.addEventListener('click',()=>{
+      try{
+        sessionStorage.removeItem(key);
+        localStorage.removeItem('arina-opened-reasons-v1');
+        localStorage.removeItem('arina-opened-reasons-v2');
+      }catch(_){}
+    },{once:true,passive:true});
   }
 
   // Count a letter only when its burn/reveal has actually completed.
