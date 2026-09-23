@@ -345,16 +345,16 @@
 
 // ===== real split-site progress + real angel heart =====
 (function(){
-  const key='arina-opened-reasons-session-v3';
+  const key='arina-opened-reasons-v4';
 
   function getOpened(){
     try{
-      const raw=JSON.parse(sessionStorage.getItem(key)||'[]');
+      const raw=JSON.parse(localStorage.getItem(key)||'[]');
       return new Set(raw.map(Number).filter(n=>Number.isInteger(n)&&n>=1&&n<=100));
     }catch(_){ return new Set(); }
   }
   function saveOpened(set){
-    try{ sessionStorage.setItem(key,JSON.stringify([...set].sort((a,b)=>a-b))); }catch(_){}
+    try{ localStorage.setItem(key,JSON.stringify([...set].sort((a,b)=>a-b))); }catch(_){}
   }
   function markOpened(n){
     if(!Number.isInteger(n)||n<1||n>100) return;
@@ -369,31 +369,29 @@
   if(introEnvelope && document.body.classList.contains('intro-page')){
     introEnvelope.addEventListener('click',()=>{
       try{
-        sessionStorage.removeItem(key);
+        localStorage.removeItem(key);
         localStorage.removeItem('arina-opened-reasons-v1');
         localStorage.removeItem('arina-opened-reasons-v2');
+        localStorage.removeItem('arina-opened-reasons-v4');
       }catch(_){}
     },{once:true,passive:true});
   }
 
-  // Count a letter only when its burn/reveal has actually completed.
+  // Count the exact moment a real reason envelope is opened.
+  // This is more reliable than waiting for the burn timer, especially on iPhone/Safari
+  // and when the user moves to the next page quickly.
   document.querySelectorAll('#reasonsGrid > details.reason-envelope[data-reason]').forEach(detail=>{
     const n=Number(detail.dataset.reason);
-    let recorded=false;
+    if(!Number.isInteger(n)) return;
 
-    const recordIfDone=()=>{
-      if(recorded || !detail.open || !detail.classList.contains('burn-done')) return;
-      recorded=true;
-      markOpened(n);
+    const recordOpen=()=>{
+      if(detail.open) markOpened(n);
     };
 
-    detail.addEventListener('toggle',()=>{
-      if(!detail.open){ recorded=false; return; }
-      if(detail.classList.contains('burn-done')) recordIfDone();
-    },{passive:true});
-
-    const mo=new MutationObserver(recordIfDone);
-    mo.observe(detail,{attributes:true,attributeFilter:['class']});
+    detail.addEventListener('toggle',recordOpen,{passive:true});
+    // Handles Safari back/forward cache restoring an already-open <details>.
+    window.addEventListener('pageshow',recordOpen,{passive:true});
+    recordOpen();
   });
 
   const overlay=document.querySelector('.page-transition');
