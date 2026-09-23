@@ -7,7 +7,7 @@
 <meta name="description" content="Для Арины 🤍">
 <title>Для Арины 🤍</title>
 <script>document.documentElement.classList.add('js');</script>
-<link rel="stylesheet" href="site.css?v=20260923-22">
+<link rel="stylesheet" href="site.css?v=20260923-23">
 
 </head>
 <body class="intro-page">
@@ -54,13 +54,50 @@
 <button class="intro-continue" id="introContinue" type="button">Продолжить</button>
 </div>
 </div>
-<script src="site.js?v=20260923-22" defer></script>
+<script src="site.js?v=20260923-23" defer></script>
 <script>
 (function(){
   const intro=document.getElementById('intro');
   const button=document.getElementById('introContinue');
   const overlay=document.querySelector('.page-transition');
+  const envelope=document.getElementById('envelope');
+  const letter=document.getElementById('letter');
   let started=false;
+  let revealTimer=0;
+
+  function placeContinue(){
+    if(!button || !letter) return;
+    const r=letter.getBoundingClientRect();
+    const vv=window.visualViewport;
+    const viewportBottom=vv ? vv.offsetTop+vv.height : window.innerHeight;
+    const h=button.offsetHeight||50;
+    const desired=r.bottom+24;
+    const maxTop=viewportBottom-h-22;
+    const top=Math.min(desired,maxTop);
+    button.style.setProperty('--continue-top',Math.round(top)+'px');
+  }
+
+  function revealContinue(){
+    clearTimeout(revealTimer);
+    button.classList.remove('after-open-visible');
+    revealTimer=setTimeout(()=>{
+      placeContinue();
+      button.classList.add('after-open-visible');
+    },3900);
+  }
+
+  envelope?.addEventListener('click',revealContinue,{once:true});
+  if(location.hash==='#intro') revealContinue();
+
+  window.addEventListener('resize',()=>{
+    if(button?.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
+  },{passive:true});
+  window.visualViewport?.addEventListener('resize',()=>{
+    if(button?.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
+  },{passive:true});
+  window.visualViewport?.addEventListener('scroll',()=>{
+    if(button?.classList.contains('after-open-visible')) requestAnimationFrame(placeContinue);
+  },{passive:true});
 
   function continueStory(){
     if(started || !intro || !button) return;
