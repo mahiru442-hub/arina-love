@@ -141,7 +141,7 @@
       positionHeartSpell();
       if (location.hash === '#intro') startHearts();
     });
-    window.addEventListener('scroll', revealVisible, { passive:true });
+    if (window.innerWidth > 760) window.addEventListener('scroll', revealVisible, { passive:true });
 
 
 
