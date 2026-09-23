@@ -2861,3 +2861,55 @@ body.final-page .angel-heart-layer { pointer-events:none; }
   .intro .letter{padding:20px 18px 14px !important;}
   .intro .intro-continue{margin-top:10px !important;min-height:48px;}
 }
+
+
+/* ===== vContinueTapFix: real button outside the envelope link for iPhone Safari ===== */
+.envelope-wrap{position:relative !important;}
+.intro .intro-continue{
+  position:absolute !important;
+  left:50% !important;
+  bottom:-74px !important;
+  transform:translateX(-50%) !important;
+  z-index:1000001 !important;
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid rgba(125,63,85,.28);
+  border-radius:999px;
+  background:linear-gradient(145deg,#c78fa4,#a76079);
+  color:#fffafc;
+  min-width:164px;
+  min-height:48px;
+  padding:12px 24px;
+  font:600 15px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  letter-spacing:.03em;
+  box-shadow:0 12px 30px rgba(83,38,55,.28);
+  cursor:pointer;
+  touch-action:manipulation !important;
+  -webkit-tap-highlight-color:transparent;
+}
+.intro:target .intro-continue{
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+.intro .intro-continue:active{
+  transform:translateX(-50%) scale(.97) !important;
+}
+.intro .intro-continue.pressed{
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+@media(max-width:760px){
+  .intro .intro-continue{
+    bottom:-66px !important;
+    min-width:170px;
+    min-height:50px;
+  }
+}
