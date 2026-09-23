@@ -3136,3 +3136,54 @@ body.home-page .distance-memory .portrait-caption{
     min-height:430px !important;
   }
 }
+
+
+/* ===== vFirstLetterContinue: only the first letter gets a Continue button ===== */
+body.intro-page .envelope-wrap{
+  position:relative !important;
+}
+body.intro-page .intro-continue,
+body.intro-page .intro:target .intro-continue,
+body.intro-page .intro:target .intro-continue.read-complete{
+  position:absolute !important;
+  left:50% !important;
+  top:auto !important;
+  right:auto !important;
+  bottom:-82px !important;
+  margin:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:170px !important;
+  min-height:50px !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateX(-50%) translateY(30px) scale(.96) !important;
+  transition:
+    opacity .42s ease,
+    transform .62s cubic-bezier(.18,.82,.18,1),
+    visibility .42s ease !important;
+}
+body.intro-page .intro:target .intro-continue.after-open-visible{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translateX(-50%) translateY(0) scale(1) !important;
+}
+body.intro-page .intro-continue:active{
+  transform:translateX(-50%) translateY(1px) scale(.97) !important;
+}
+body.intro-page .intro-continue.pressed{
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateX(-50%) translateY(12px) scale(.96) !important;
+}
+@media(max-width:760px){
+  body.intro-page .intro-continue,
+  body.intro-page .intro:target .intro-continue,
+  body.intro-page .intro:target .intro-continue.read-complete{
+    bottom:-76px !important;
+  }
+}
