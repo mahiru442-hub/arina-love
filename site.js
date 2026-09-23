@@ -481,3 +481,63 @@
   }
 })();
 
+
+
+/* v27: visible green beam emitted from the wand tip. */
+(function(){
+  const beam=document.getElementById('wandBeamV27');
+  const tip=document.querySelector('.wand-tip-anchor');
+  const letter=document.getElementById('letter');
+  if(!beam || !tip || !letter) return;
+
+  let raf=0;
+  let stopTimer=0;
+
+  function placeBeam(){
+    const tr=tip.getBoundingClientRect();
+    const lr=letter.getBoundingClientRect();
+
+    const x1=tr.left+tr.width/2;
+    const y1=tr.top+tr.height/2;
+    const x2=lr.left+lr.width*.52;
+    const y2=lr.top+lr.height*.54;
+
+    const dx=x2-x1;
+    const dy=y2-y1;
+    const len=Math.hypot(dx,dy);
+    const angle=Math.atan2(dy,dx)*180/Math.PI;
+
+    beam.style.left=x1+'px';
+    beam.style.top=y1+'px';
+    beam.style.width=len+'px';
+    beam.style.transform='translateY(-50%) rotate('+angle+'deg) scaleX(1)';
+  }
+
+  function track(){
+    placeBeam();
+    raf=requestAnimationFrame(track);
+  }
+
+  function startBeam(){
+    cancelAnimationFrame(raf);
+    clearTimeout(stopTimer);
+    beam.classList.remove('active');
+    placeBeam();
+    void beam.offsetWidth;
+    beam.classList.add('active');
+    track();
+
+    stopTimer=setTimeout(()=>{
+      cancelAnimationFrame(raf);
+      beam.classList.remove('active');
+    },1650);
+  }
+
+  document.addEventListener('intro:continue',()=>{
+    setTimeout(startBeam,1250);
+  });
+
+  window.addEventListener('resize',()=>{
+    if(beam.classList.contains('active')) requestAnimationFrame(placeBeam);
+  },{passive:true});
+})();
