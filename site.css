@@ -3581,3 +3581,39 @@ body.intro-page #introContinue.pressed{
   opacity:0 !important;
   pointer-events:none !important;
 }
+
+
+/* ===== v23 iPhone first-letter Continue: definitive placement ===== */
+body.intro-page #introContinue{
+  position:fixed !important;
+  left:50% !important;
+  right:auto !important;
+  top:var(--continue-top, calc(50% + 285px)) !important;
+  bottom:auto !important;
+  margin:0 !important;
+  z-index:2147483647 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:172px !important;
+  min-height:50px !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate3d(-50%,18px,0) scale(.98) !important;
+  transition:opacity .45s ease,transform .65s cubic-bezier(.16,.82,.16,1),visibility .45s ease !important;
+}
+body.intro-page #introContinue.after-open-visible{
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  transform:translate3d(-50%,0,0) scale(1) !important;
+}
+body.intro-page #introContinue:active{
+  transform:translate3d(-50%,1px,0) scale(.97) !important;
+}
+body.intro-page #introContinue.pressed{
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
