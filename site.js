@@ -112,7 +112,7 @@
         setTimeout(() => {
           startHearts();
           revealVisible();
-        }, 3604500);
+        }, 64500);
       }
     });
 
@@ -136,7 +136,7 @@
   function armSpellTracking(){
     cancelAnimationFrame(spellRAF); spellStart=0;
     // Starts shortly before the wand fires. This fixes desktop aspect ratios.
-    setTimeout(()=>{ spellRAF=requestAnimationFrame(trackDesktopSpell); }, 3598200);
+    setTimeout(()=>{ spellRAF=requestAnimationFrame(trackDesktopSpell); }, 58200);
   }
   window.addEventListener('hashchange',()=>{ if(location.hash==='#intro') armSpellTracking(); });
   window.addEventListener('load',()=>{ if(location.hash==='#intro') armSpellTracking(); });
@@ -157,7 +157,7 @@
   let delayedTrack=0;
   function armV14Tracking(){
     clearTimeout(delayedTrack);
-    delayedTrack=setTimeout(function(){ trackV14(6500); },3597000);
+    delayedTrack=setTimeout(function(){ trackV14(6500); },57000);
   }
   if(env) env.addEventListener('click',armV14Tracking,{once:true});
   window.addEventListener('load',function(){
@@ -215,7 +215,7 @@
         placeGreenFire();
         void fire.offsetWidth;
         fire.classList.add('active');
-      },3600000);
+      },60000);
     }
     window.addEventListener('resize',()=>requestAnimationFrame(placeGreenFire),{passive:true});
     window.addEventListener('hashchange',()=>{ if(location.hash==='#intro') armGreenFire(); });
@@ -277,7 +277,7 @@
       front.classList.remove('active'); void front.offsetWidth; front.classList.add('active');
       makeSparkBurst(); sparks.classList.add('active');
       sparkTimer=setTimeout(()=>sparks.classList.remove('active'),1800);
-    },3600000);
+    },60000);
   }
   window.addEventListener('resize',()=>requestAnimationFrame(placeFX),{passive:true});
   if(envelope) envelope.addEventListener('click',resetAndArm,{passive:true});
@@ -301,7 +301,7 @@
       letter.classList.remove('spell-dissolve-v20');
       void letter.offsetWidth;
       letter.classList.add('spell-dissolve-v20');
-    },3600000);
+    },60000);
   }
   document.getElementById('envelope')?.addEventListener('click', arm, {passive:true});
   window.addEventListener('hashchange',()=>{if(location.hash==='#intro') arm();});
@@ -327,7 +327,7 @@
       letter.classList.remove('spell-dissolve-v20','spell-dissolve-v21');
       void letter.offsetWidth;
       letter.classList.add('spell-dissolve-v21');
-    },3600000);
+    },60000);
   }
   if(envelope) envelope.addEventListener('click',resetAndArm,{passive:true});
   window.addEventListener('hashchange',function(){ if(location.hash==='#intro') resetAndArm(); });
