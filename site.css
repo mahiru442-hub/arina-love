@@ -2810,3 +2810,54 @@ body.final-page .angel-heart-layer { pointer-events:none; }
   .intro-continue{bottom:16px;min-height:46px;min-width:156px;}
   .intro .letter{padding-bottom:84px !important;}
 }
+
+
+/* ===== vContinueFix: keep Continue visibly pinned inside the first letter ===== */
+.intro .letter{
+  overflow:hidden !important;
+  display:flex !important;
+  flex-direction:column !important;
+  padding:24px 22px 16px !important;
+}
+.intro .letter-scroll{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:4px 4px 4px 2px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  touch-action:pan-y;
+  overscroll-behavior:contain;
+}
+.intro .letter-scroll::-webkit-scrollbar{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+.intro .intro-continue,
+.intro:target .intro-continue{
+  position:relative !important;
+  left:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  flex:0 0 auto;
+  align-self:center;
+  display:inline-flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  margin:12px auto 0 !important;
+  min-width:156px;
+  min-height:46px;
+  z-index:80 !important;
+}
+.intro .intro-continue.pressed{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateY(6px) !important;
+}
+@media(max-width:760px){
+  .intro .letter{padding:20px 18px 14px !important;}
+  .intro .intro-continue{margin-top:10px !important;min-height:48px;}
+}
