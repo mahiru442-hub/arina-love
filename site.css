@@ -2913,3 +2913,36 @@ body.final-page .angel-heart-layer { pointer-events:none; }
     min-height:50px;
   }
 }
+
+
+/* ===== vContinuePosition: center Continue clearly below the opened letter ===== */
+.intro .intro-continue,
+.intro:target .intro-continue{
+  position:fixed !important;
+  left:50% !important;
+  top:calc(50% + clamp(165px, 23vw, 210px)) !important;
+  right:auto !important;
+  bottom:auto !important;
+  margin:0 !important;
+  transform:translateX(-50%) !important;
+  z-index:1000001 !important;
+}
+.intro .intro-continue:active{
+  transform:translateX(-50%) scale(.97) !important;
+}
+.intro .intro-continue.pressed{
+  transform:translateX(-50%) translateY(6px) !important;
+}
+@media(max-width:760px){
+  .intro .intro-continue,
+  .intro:target .intro-continue{
+    top:calc(50% + 175px) !important;
+  }
+}
+@media(max-height:700px){
+  .intro .intro-continue,
+  .intro:target .intro-continue{
+    top:auto !important;
+    bottom:22px !important;
+  }
+}
