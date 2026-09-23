@@ -107,13 +107,13 @@
     }
 
     window.addEventListener('hashchange', () => {
-      if (location.hash === '#intro') {
-        positionHeartSpell();
-        setTimeout(() => {
-          startHearts();
-          revealVisible();
-        }, 64500);
-      }
+      if (location.hash === '#intro') positionHeartSpell();
+    });
+    document.addEventListener('intro:continue', () => {
+      setTimeout(() => {
+        startHearts();
+        revealVisible();
+      }, 4500);
     });
 
     window.addEventListener('load', () => {
@@ -135,11 +135,9 @@
   }
   function armSpellTracking(){
     cancelAnimationFrame(spellRAF); spellStart=0;
-    // Starts shortly before the wand fires. This fixes desktop aspect ratios.
-    setTimeout(()=>{ spellRAF=requestAnimationFrame(trackDesktopSpell); }, 58200);
+    spellRAF=requestAnimationFrame(trackDesktopSpell);
   }
-  window.addEventListener('hashchange',()=>{ if(location.hash==='#intro') armSpellTracking(); });
-  window.addEventListener('load',()=>{ if(location.hash==='#intro') armSpellTracking(); });
+  document.addEventListener('intro:continue',armSpellTracking);
 })();
 
 
@@ -153,15 +151,9 @@
     }
     requestAnimationFrame(frame);
   }
-  const env=document.getElementById('envelope');
-  let delayedTrack=0;
-  function armV14Tracking(){
-    clearTimeout(delayedTrack);
-    delayedTrack=setTimeout(function(){ trackV14(6500); },57000);
-  }
-  if(env) env.addEventListener('click',armV14Tracking,{once:true});
+  function armV14Tracking(){ trackV14(6500); }
+  document.addEventListener('intro:continue',armV14Tracking);
   window.addEventListener('load',function(){
-    if(location.hash==='#intro') armV14Tracking();
     setTimeout(function(){ if(typeof positionHeartSpell==='function') positionHeartSpell(); },60);
   });
 })();
@@ -215,11 +207,10 @@
         placeGreenFire();
         void fire.offsetWidth;
         fire.classList.add('active');
-      },60000);
+      },2320);
     }
     window.addEventListener('resize',()=>requestAnimationFrame(placeGreenFire),{passive:true});
-    window.addEventListener('hashchange',()=>{ if(location.hash==='#intro') armGreenFire(); });
-    window.addEventListener('load',()=>{ if(location.hash==='#intro') armGreenFire(); });
+    document.addEventListener('intro:continue',armGreenFire);
   }
 
 
@@ -277,12 +268,10 @@
       front.classList.remove('active'); void front.offsetWidth; front.classList.add('active');
       makeSparkBurst(); sparks.classList.add('active');
       sparkTimer=setTimeout(()=>sparks.classList.remove('active'),1800);
-    },60000);
+    },2320);
   }
   window.addEventListener('resize',()=>requestAnimationFrame(placeFX),{passive:true});
-  if(envelope) envelope.addEventListener('click',resetAndArm,{passive:true});
-  window.addEventListener('hashchange',()=>{if(location.hash==='#intro') resetAndArm();});
-  window.addEventListener('load',()=>{if(location.hash==='#intro') resetAndArm();});
+  document.addEventListener('intro:continue',resetAndArm);
 })();
 
 
@@ -301,11 +290,9 @@
       letter.classList.remove('spell-dissolve-v20');
       void letter.offsetWidth;
       letter.classList.add('spell-dissolve-v20');
-    },60000);
+    },2320);
   }
-  document.getElementById('envelope')?.addEventListener('click', arm, {passive:true});
-  window.addEventListener('hashchange',()=>{if(location.hash==='#intro') arm();});
-  window.addEventListener('load',()=>{if(location.hash==='#intro') arm();});
+  document.addEventListener('intro:continue',arm);
 })();
 
 
@@ -327,11 +314,9 @@
       letter.classList.remove('spell-dissolve-v20','spell-dissolve-v21');
       void letter.offsetWidth;
       letter.classList.add('spell-dissolve-v21');
-    },60000);
+    },2320);
   }
-  if(envelope) envelope.addEventListener('click',resetAndArm,{passive:true});
-  window.addEventListener('hashchange',function(){ if(location.hash==='#intro') resetAndArm(); });
-  window.addEventListener('load',function(){ if(location.hash==='#intro') resetAndArm(); });
+  document.addEventListener('intro:continue',resetAndArm);
 })();
 
 
