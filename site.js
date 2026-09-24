@@ -78,7 +78,7 @@
           distanceCard?.classList.add('mist-visible');
           distanceObserver.disconnect();
         });
-      },{threshold:[.08,.18],rootMargin:'0px 0px -30% 0px'});
+      },{threshold:[.22,.34],rootMargin:'0px 0px -18% 0px'});
       distanceObserver.observe(distanceCard || distanceSection);
     }
 
@@ -227,7 +227,7 @@
         placeGreenFire();
         void fire.offsetWidth;
         fire.classList.add('active');
-      },2320);
+      },5350);
     }
     window.addEventListener('resize',()=>requestAnimationFrame(placeGreenFire),{passive:true});
     document.addEventListener('intro:continue',armGreenFire);
@@ -557,6 +557,6 @@
       letter.classList.remove('old-fire-burn-v29');
       void letter.offsetWidth;
       letter.classList.add('old-fire-burn-v29');
-    },2320);
+    },2050);
   });
 })();
