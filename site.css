@@ -4193,3 +4193,130 @@ body.final-page #angelHeartLayer.full-heart-100.heart-assembled .final-heart-ang
     animation-duration:4.6s !important;
   }
 }
+
+
+/* ===== v30: destroy first, then green fire; rounded letter; softer distance reveal ===== */
+
+/* First letter keeps its paper shape while being destroyed. */
+body.intro-page .letter,
+body.intro-page .letter.old-fire-burn-v29{
+  border-radius:16px !important;
+  overflow:hidden !important;
+  clip-path:inset(0 round 16px) !important;
+  -webkit-clip-path:inset(0 round 16px) !important;
+}
+
+/* Destruction happens first and finishes before the green flames take over. */
+.intro.continue-triggered .letter.old-fire-burn-v29{
+  animation:oldLetterBurnV30 3.35s cubic-bezier(.20,.04,.12,1) forwards !important;
+}
+@keyframes oldLetterBurnV30{
+  0%{
+    --old-burn-radius-v29:0%;
+    opacity:1;
+    transform:translateY(-26%) scale(1);
+    filter:brightness(1.08) saturate(1.08);
+    -webkit-mask-image:radial-gradient(circle farthest-corner at 52% 47%,transparent 0 var(--old-burn-radius-v29),#000 calc(var(--old-burn-radius-v29) + 2.2%),#000 100%);
+    mask-image:radial-gradient(circle farthest-corner at 52% 47%,transparent 0 var(--old-burn-radius-v29),#000 calc(var(--old-burn-radius-v29) + 2.2%),#000 100%);
+  }
+  20%{
+    --old-burn-radius-v29:12%;
+    opacity:1;
+    filter:brightness(1.03) saturate(1.18) drop-shadow(0 0 12px rgba(65,255,119,.22));
+  }
+  52%{
+    --old-burn-radius-v29:46%;
+    opacity:.96;
+    filter:brightness(.86) saturate(1.28) sepia(.10);
+  }
+  80%{
+    --old-burn-radius-v29:82%;
+    opacity:.68;
+    transform:translateY(-26%) scale(.99);
+    filter:brightness(.62) saturate(1.28);
+  }
+  100%{
+    --old-burn-radius-v29:116%;
+    opacity:0;
+    transform:translateY(-26%) scale(.97);
+    filter:brightness(.34);
+  }
+}
+
+/* Then the old green fire blooms after the paper is already gone. */
+.green-spell-fire-v16.active{
+  animation:greenFireAfterBurnV30 2.65s cubic-bezier(.16,.8,.16,1) forwards !important;
+}
+@keyframes greenFireAfterBurnV30{
+  0%{opacity:0;transform:translate(-50%,-68%) scale(.10);}
+  10%{opacity:1;transform:translate(-50%,-70%) scale(.48);}
+  34%{opacity:1;transform:translate(-50%,-74%) scale(.92);}
+  66%{opacity:.96;transform:translate(-50%,-80%) scale(1.22,1.10);}
+  86%{opacity:.65;transform:translate(-50%,-88%) scale(1.50,1.28);}
+  100%{opacity:0;transform:translate(-50%,-102%) scale(1.86,1.48);}
+}
+
+/* First home slide is taller so an accidental small swipe does not reveal the distance block. */
+body.home-page .hero{
+  min-height:112svh !important;
+}
+body.home-page .scroll-cue{
+  margin-top:52px !important;
+  transform:translateY(22px);
+}
+@media(max-width:760px){
+  body.home-page .hero{
+    min-height:118svh !important;
+    min-height:118dvh !important;
+  }
+  body.home-page .scroll-cue{
+    margin-top:60px !important;
+    transform:translateY(28px);
+  }
+}
+
+/* Distance block itself stays hidden until the observer says it is actually in view. */
+.js body.home-page .distance-memory .portrait-card{
+  opacity:0 !important;
+  transform:translateY(34px) scale(.975) !important;
+  filter:blur(10px) !important;
+  animation:none !important;
+}
+.js body.home-page .distance-memory .portrait-copy,
+.js body.home-page .distance-memory .route-art{
+  opacity:0 !important;
+  transform:translateY(26px) scale(.975) !important;
+  filter:blur(13px) !important;
+  animation:none !important;
+  transition:none !important;
+}
+
+/* Same visual language as the letters revealed after the angels. */
+.js body.home-page .distance-memory.distance-visible .portrait-card{
+  animation:distanceCardLetterLikeV30 1.55s cubic-bezier(.18,.84,.18,1) both !important;
+}
+.js body.home-page .distance-memory.distance-visible .portrait-copy{
+  animation:distanceLetterLikeV30 1.45s .18s cubic-bezier(.18,.84,.18,1) both !important;
+}
+.js body.home-page .distance-memory.distance-visible .route-art{
+  animation:distanceLetterLikeV30 1.55s .34s cubic-bezier(.18,.84,.18,1) both !important;
+}
+@keyframes distanceCardLetterLikeV30{
+  from{opacity:0;transform:translateY(34px) scale(.975);filter:blur(10px);}
+  to{opacity:1;transform:none;filter:none;}
+}
+@keyframes distanceLetterLikeV30{
+  from{opacity:0;transform:translateY(26px) scale(.975);filter:blur(13px);}
+  to{opacity:1;transform:none;filter:none;}
+}
+@media(max-width:760px){
+  .js body.home-page .distance-memory.distance-visible .portrait-card{
+    animation-duration:1.75s !important;
+  }
+  .js body.home-page .distance-memory.distance-visible .portrait-copy{
+    animation-duration:1.65s !important;
+  }
+  .js body.home-page .distance-memory.distance-visible .route-art{
+    animation-duration:1.75s !important;
+  }
+}
