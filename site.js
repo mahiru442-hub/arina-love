@@ -78,7 +78,7 @@
           distanceCard?.classList.add('mist-visible');
           distanceObserver.disconnect();
         });
-      },{threshold:[.16,.28],rootMargin:'0px 0px -24% 0px'});
+      },{threshold:[.08,.18],rootMargin:'0px 0px -30% 0px'});
       distanceObserver.observe(distanceCard || distanceSection);
     }
 
@@ -510,7 +510,8 @@
     beam.style.left=x1+'px';
     beam.style.top=y1+'px';
     beam.style.width=len+'px';
-    beam.style.transform='translateY(-50%) rotate('+angle+'deg) scaleX(1)';
+    beam.style.setProperty('--beam-angle',angle+'deg');
+    beam.style.transform='translateY(-50%) rotate('+angle+'deg)';
   }
 
   function track(){
@@ -540,4 +541,22 @@
   window.addEventListener('resize',()=>{
     if(beam.classList.contains('active')) requestAnimationFrame(placeBeam);
   },{passive:true});
+})();
+
+
+/* v29: restore the older green-fire destruction of the first letter. */
+(function(){
+  const letter=document.getElementById('letter');
+  if(!letter) return;
+  let burnTimer=0;
+
+  document.addEventListener('intro:continue',()=>{
+    clearTimeout(burnTimer);
+    letter.classList.remove('old-fire-burn-v29');
+    burnTimer=setTimeout(()=>{
+      letter.classList.remove('old-fire-burn-v29');
+      void letter.offsetWidth;
+      letter.classList.add('old-fire-burn-v29');
+    },2320);
+  });
 })();
