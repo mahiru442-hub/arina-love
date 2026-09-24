@@ -4078,3 +4078,118 @@ body.final-page #angelHeartLayer.full-heart-100.heart-assembled .final-heart-ang
   78%{opacity:1;transform:translateY(-50%) scaleX(1);}
   100%{opacity:0;transform:translateY(-50%) scaleX(1);}
 }
+
+
+/* ===== v29: accurate wand beam + old letter fire + slow scroll reveal ===== */
+
+/* Keep the beam physically aimed at the letter. */
+.wand-beam-v27{
+  transform:translateY(-50%) rotate(var(--beam-angle,0deg)) !important;
+  clip-path:inset(0 100% 0 0);
+}
+.wand-beam-v27.active{
+  animation:wandBeamFireV29 1.7s cubic-bezier(.16,.82,.16,1) both !important;
+}
+@keyframes wandBeamFireV29{
+  0%{opacity:0;clip-path:inset(0 100% 0 0);}
+  10%{opacity:1;}
+  56%{opacity:1;clip-path:inset(0 0 0 0);}
+  80%{opacity:1;clip-path:inset(0 0 0 0);}
+  100%{opacity:0;clip-path:inset(0 0 0 0);}
+}
+
+/* Restore the older green-fire look on the opening letter. */
+.intro-burn-front-v23,
+.intro-burn-sparks-v23{
+  display:none !important;
+}
+.intro:target .letter.spell-dissolve-v20,
+.intro:target .letter.spell-dissolve-v21,
+.intro:target .letter.spell-dissolve-v23{
+  animation:none !important;
+}
+
+@property --old-burn-radius-v29{
+  syntax:'<percentage>';
+  inherits:false;
+  initial-value:0%;
+}
+.intro.continue-triggered .letter.old-fire-burn-v29{
+  --old-burn-radius-v29:0%;
+  animation:oldLetterBurnV29 4.05s cubic-bezier(.20,.04,.12,1) forwards !important;
+}
+@keyframes oldLetterBurnV29{
+  0%{
+    --old-burn-radius-v29:0%;
+    opacity:1;
+    filter:brightness(1.10) saturate(1.10) drop-shadow(0 0 9px rgba(70,255,120,.22));
+    -webkit-mask-image:radial-gradient(circle farthest-corner at 52% 47%,transparent 0 var(--old-burn-radius-v29),#000 calc(var(--old-burn-radius-v29) + 2.4%),#000 100%);
+    mask-image:radial-gradient(circle farthest-corner at 52% 47%,transparent 0 var(--old-burn-radius-v29),#000 calc(var(--old-burn-radius-v29) + 2.4%),#000 100%);
+  }
+  18%{
+    --old-burn-radius-v29:10%;
+    opacity:1;
+    filter:brightness(1.06) saturate(1.20) drop-shadow(0 0 13px rgba(65,255,119,.25));
+  }
+  48%{
+    --old-burn-radius-v29:42%;
+    opacity:.98;
+    filter:brightness(.90) saturate(1.30) sepia(.10) drop-shadow(0 0 18px rgba(39,255,100,.22));
+  }
+  76%{
+    --old-burn-radius-v29:76%;
+    opacity:.82;
+    filter:brightness(.70) saturate(1.34);
+  }
+  100%{
+    --old-burn-radius-v29:112%;
+    opacity:0;
+    filter:brightness(.38) saturate(1.20);
+  }
+}
+
+.green-spell-fire-v16{
+  z-index:1000004 !important;
+  mix-blend-mode:screen !important;
+}
+.green-spell-fire-v16.active{
+  animation:greenFireBodyV16 3.75s cubic-bezier(.16,.8,.16,1) forwards !important;
+}
+
+/* Route photo + text: reveal only when user scrolls into the block, and do it slowly. */
+.js body.home-page .distance-memory{
+  opacity:1 !important;
+  transform:none !important;
+  animation:none !important;
+}
+.js body.home-page .distance-memory .portrait-card{
+  opacity:0 !important;
+  transform:translate3d(0,84px,0) scale(.988) !important;
+  filter:none !important;
+  animation:none !important;
+}
+.js body.home-page .distance-memory .portrait-copy,
+.js body.home-page .distance-memory .route-art{
+  opacity:1 !important;
+  transform:none !important;
+  animation:none !important;
+  transition:none !important;
+}
+.js body.home-page .distance-memory.distance-visible .portrait-card{
+  animation:distanceFloatInV29 4.35s cubic-bezier(.12,.74,.14,1) both !important;
+}
+@keyframes distanceFloatInV29{
+  0%{opacity:0;transform:translate3d(0,84px,0) scale(.988);}
+  18%{opacity:.08;}
+  42%{opacity:.34;transform:translate3d(0,56px,0) scale(.992);}
+  70%{opacity:.72;transform:translate3d(0,23px,0) scale(.997);}
+  100%{opacity:1;transform:translate3d(0,0,0) scale(1);}
+}
+@media(max-width:760px){
+  .js body.home-page .distance-memory .portrait-card{
+    transform:translate3d(0,72px,0) scale(.99) !important;
+  }
+  .js body.home-page .distance-memory.distance-visible .portrait-card{
+    animation-duration:4.6s !important;
+  }
+}
