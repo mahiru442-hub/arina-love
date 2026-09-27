@@ -4352,3 +4352,19 @@ body.afterword-page { margin:0; background:#120e15; color:#f6edf2; overflow-x:hi
 .afterword-copy .self-belief { margin:42px 0; padding:24px 0 24px 22px; border-left:2px solid #ddb8ce; font-weight:700; color:#fff2fa; }
 .afterword-page .page-nav { max-width:1000px; margin:32px auto; }
 @media (prefers-reduced-motion:reduce) { .distance-visible .memory-angel { animation:none; } }
+
+/* Always reachable manual shortcut, clear of the iPhone safe area. */
+.afterword-shortcut {
+  position:fixed;
+  top:calc(env(safe-area-inset-top, 0px) + 16px);
+  right:calc(env(safe-area-inset-right, 0px) + 16px);
+  z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  width:48px; height:48px; border-radius:50%;
+  background:#2b1f2c; color:#fff2fa;
+  border:1px solid #87697f;
+  font:28px/1 system-ui,sans-serif; text-decoration:none;
+}
+.afterword-shortcut:focus-visible, .page-nav a:focus-visible {
+  outline:3px solid #f1cfdf; outline-offset:4px;
+}

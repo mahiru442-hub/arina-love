@@ -414,28 +414,10 @@
     recordOpen();
   });
 
-  const overlay=document.querySelector('.page-transition');
-  let navigating=false;
-  function go(href){
-    if(!href || navigating) return;
-    navigating=true;
-    if(overlay) overlay.classList.add('active');
-    setTimeout(()=>{ location.href=href; },620);
-  }
-  document.querySelectorAll('a[data-page-link]').forEach(a=>{
-    a.addEventListener('click',e=>{e.preventDefault();go(a.getAttribute('href'));});
+  // Navigation uses native links. Scrolling never changes the page.
+  window.addEventListener('pageshow', () => {
+    document.querySelector('.page-transition')?.classList.remove('active');
   });
-
-  const endMarker=document.querySelector('.page-end-trigger[data-next]');
-  if(endMarker && 'IntersectionObserver' in window){
-    let timer=0;
-    const io=new IntersectionObserver(entries=>{
-      const hit=entries.some(e=>e.isIntersecting&&e.intersectionRatio>.7);
-      clearTimeout(timer);
-      if(hit) timer=setTimeout(()=>go(endMarker.dataset.next),1150);
-    },{threshold:[.7]});
-    io.observe(endMarker);
-  }
 
   // Final page: all 100 angels visibly gather into a heart under the text.
   const layer=document.getElementById('angelHeartLayer');
