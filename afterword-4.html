@@ -115,11 +115,11 @@
 <div class="memory-envelope" aria-label="Конверт с двумя фотографиями на память">
   <div class="envelope-flap" aria-hidden="true"></div>
   <figure class="memory-photo">
-    <img src="assets/afterword-memory-1.jpg" alt="Фото на память 1">
+    <img id="memory-photo-1" alt="Фото на память 1">
     <figcaption>на память</figcaption>
   </figure>
   <figure class="memory-photo">
-    <img src="assets/afterword-memory-2.jpg" alt="Фото на память 2">
+    <img id="memory-photo-2" alt="Фото на память 2">
     <figcaption>на память</figcaption>
   </figure>
   <div class="envelope-front" aria-hidden="true"></div>
@@ -131,5 +131,41 @@
 </div>
 <nav class="page-nav" aria-label="Навигация"><a href="afterword-3.html">← назад</a><a href="afterword.html">к началу послесловия</a></nav>
 </main>
+<script>
+(async () => {
+  const loadPhoto = async (id, parts) => {
+    const el = document.getElementById(id);
+    try {
+      const chunks = await Promise.all(parts.map(async (path) => {
+        const response = await fetch(path, { cache: 'force-cache' });
+        if (!response.ok) throw new Error('photo chunk');
+        return (await response.text()).trim();
+      }));
+      el.src = 'data:image/jpeg;base64,' + chunks.join('');
+    } catch (error) {
+      el.alt = 'Фото временно не загрузилось';
+    }
+  };
+
+  await Promise.all([
+    loadPhoto('memory-photo-1', [
+      'assets/memory-1-a.txt',
+      'assets/memory-1-b.txt',
+      'assets/memory-1-c1.txt',
+      'assets/memory-1-c2.txt',
+      'assets/memory-1-d1.txt',
+      'assets/memory-1-d2.txt'
+    ]),
+    loadPhoto('memory-photo-2', [
+      'assets/memory-2-a.txt',
+      'assets/memory-2-b.txt',
+      'assets/memory-2-c1.txt',
+      'assets/memory-2-c2.txt',
+      'assets/memory-2-d1.txt',
+      'assets/memory-2-d2.txt'
+    ])
+  ]);
+})();
+</script>
 </body>
 </html>
