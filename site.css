@@ -4320,3 +4320,35 @@ body.home-page .scroll-cue{
     animation-duration:1.75s !important;
   }
 }
+
+/* Clear route memory and lightweight angel; keep the split-page layout. */
+html.js body.home-page #distance,
+html.js body.home-page #distance .portrait-card,
+html.js body.home-page #distance .portrait-copy,
+html.js body.home-page #distance .route-art,
+html.js body.home-page #distance .route-photo {
+  filter:none !important;
+  -webkit-filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  opacity:1 !important;
+  transform:none !important;
+  animation:none !important;
+}
+.memory-date { margin:20px 0; color:#e7cadc; font-size:clamp(16px,3vw,22px); letter-spacing:.08em; }
+.memory-angel { display:block; width:max-content; margin:0 0 18px; font-size:48px; line-height:1.2; }
+.distance-visible .memory-angel { animation:memoryAngelArrival 2.4s ease-out both; }
+@keyframes memoryAngelArrival {
+  0% { opacity:0; transform:translate3d(-45px,35px,0) rotate(-18deg) scale(.65); }
+  60% { opacity:1; transform:translate3d(8px,-8px,0) rotate(7deg) scale(1.08); }
+  100% { opacity:1; transform:translate3d(0,0,0) rotate(0) scale(1); }
+}
+body.afterword-page { margin:0; background:#120e15; color:#f6edf2; overflow-x:hidden; }
+.afterword { width:min(100% - 40px,1000px); margin:0 auto; padding:90px 0 40px; }
+.afterword-label { color:#c7aabc; letter-spacing:.18em; font-size:12px; text-transform:uppercase; }
+.afterword h1 { margin:28px 0 52px; font-size:clamp(36px,7.5vw,92px); line-height:1.08; letter-spacing:-.04em; overflow-wrap:anywhere; }
+.afterword-copy { max-width:720px; margin:0 auto; }
+.afterword-copy p { margin:0 0 28px; font-size:clamp(18px,2.2vw,22px); line-height:1.85; color:#ddcfd8; }
+.afterword-copy .self-belief { margin:42px 0; padding:24px 0 24px 22px; border-left:2px solid #ddb8ce; font-weight:700; color:#fff2fa; }
+.afterword-page .page-nav { max-width:1000px; margin:32px auto; }
+@media (prefers-reduced-motion:reduce) { .distance-visible .memory-angel { animation:none; } }
